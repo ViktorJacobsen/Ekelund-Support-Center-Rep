@@ -28,9 +28,8 @@ const SimpleTooltipTrigger: React.FC<{
   return <>{children}</>;
 };
 
-const SimpleTooltipContent: React.FC
-  TooltipProps & React.HTMLAttributes<HTMLDivElement>
-> = ({
+// Här var felet - korrigerar definitionen av FC med flera generics
+const SimpleTooltipContent: React.FC<TooltipProps & React.HTMLAttributes<HTMLDivElement>> = ({
   children,
   content,
   side = 'top',

@@ -4,6 +4,52 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { getThemeClasses } from './theme-variables';
 
+const lightThemeValues = {
+    '--background': '218 32% 100%',
+    '--foreground': '218 5% 10%',
+    '--card': '218 32% 100%',
+    '--card-foreground': '218 5% 15%',
+    '--popover': '218 32% 100%',
+    '--popover-foreground': '218 95% 10%',
+    '--primary': '218 81% 34%',
+    '--primary-foreground': '0 0% 100%',
+    '--secondary': '218 30% 90%',
+    '--secondary-foreground': '0 0% 0%',
+    '--muted': '180 30% 95%',
+    '--muted-foreground': '218 5% 40%',
+    '--accent': '180 30% 90%',
+    '--accent-foreground': '218 5% 15%',
+    '--destructive': '0 50% 50%',
+    '--destructive-foreground': '218 5% 100%',
+    '--border': '218 30% 82%',
+    '--divider': '213 4% 16%',
+    '--input': '218 30% 50%',
+    '--ring': '218 81% 34%',
+};
+
+const darkThemeValues = {
+    '--background': '216 37% 8%',
+    '--foreground': '218 5% 100%',
+    '--card': '216 32% 12%',
+    '--card-foreground': '218 5% 100%',
+    '--popover': '216 32% 12%',
+    '--popover-foreground': '218 5% 100%',
+    '--primary': '218 81% 34%',
+    '--primary-foreground': '0 0% 100%',
+    '--secondary': '216 32% 12%',
+    '--secondary-foreground': '0 0% 100%',
+    '--muted': '187 79% 28%',
+    '--muted-foreground': '218 5% 65%',
+    '--accent': '187 79% 28%',
+    '--accent-foreground': '218 5% 95%',
+    '--destructive': '0 50% 50%',
+    '--destructive-foreground': '218 5% 100%',
+    '--border': '213 4% 27%',
+    '--divider': '213 4% 27%',
+    '--input': '218 30% 50%',
+    '--ring': '218 81% 34%',
+};
+
 type ThemeContextType = {
   darkMode: boolean;
   toggleTheme: () => void;
@@ -54,7 +100,29 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const themeClasses = getThemeClasses();
   
   // Synka med system-preferens och localStorage
-  // I din theme-context.tsx, modifiera useEffect-funktionen
+  useEffect(() => {
+    try {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      
+      const shouldBeDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+      setDarkMode(shouldBeDark);
+      
+      // Force update av DOM
+      if (shouldBeDark) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    } catch (e) {
+      console.error("Theme initialization error:", e);
+    }
+    
+    setMounted(true);
+  }, []);
+  
+  // Uppdatera tema när darkMode ändras
+  // In your ThemeProvider component
   useEffect(() => {
     if (!mounted) return;
     
@@ -62,60 +130,27 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     
     if (darkMode) {
       root.classList.add('dark');
-      // Direkt överstyra CSS-variabler
-      root.style.setProperty('--background', '216 37% 8%');
-      root.style.setProperty('--foreground', '218 5% 100%');
-      root.style.setProperty('--card', '216 32% 12%');
-      // Lägg till fler variabler...
+      
+      // Applicera alla mörka temavärden
+      Object.entries(darkThemeValues).forEach(([property, value]) => {
+        root.style.setProperty(property, value);
+      });
       
       try {
         localStorage.setItem('theme', 'dark');
-      } catch (e) {}
+      } catch (e) { /* ignorera */ }
     } else {
       root.classList.remove('dark');
-      // Återställ till standardvärdena
-      root.style.removeProperty('--background');
-      root.style.removeProperty('--foreground');
-      root.style.removeProperty('--card');
-      // Återställ fler...
+      
+      // Applicera alla ljusa temavärden
+      Object.entries(lightThemeValues).forEach(([property, value]) => {
+        root.style.setProperty(property, value);
+      });
       
       try {
         localStorage.setItem('theme', 'light');
-      } catch (e) {}
+      } catch (e) { /* ignorera */ }
     }
-  }, [darkMode, mounted]);
-  
-  // Uppdatera tema när darkMode ändras
-  useEffect(() => {
-    if (!mounted) return;
-    
-    console.log(`Theme changing to: ${darkMode ? 'dark' : 'light'}`);
-    
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-      try {
-        localStorage.setItem('theme', 'dark');
-      } catch (e) {
-        console.error("localStorage error:", e);
-      }
-    } else {
-      document.documentElement.classList.remove('dark');
-      try {
-        localStorage.setItem('theme', 'light');
-      } catch (e) {
-        console.error("localStorage error:", e);
-      }
-    }
-    
-    // Debug-information
-    setTimeout(() => {
-      console.log("Current document classes:", document.documentElement.className);
-      console.log("Current CSS variables:", {
-        background: getComputedStyle(document.documentElement).getPropertyValue('--background'),
-        foreground: getComputedStyle(document.documentElement).getPropertyValue('--foreground'),
-        primary: getComputedStyle(document.documentElement).getPropertyValue('--primary')
-      });
-    }, 100);
   }, [darkMode, mounted]);
   
   // Toggle-funktion

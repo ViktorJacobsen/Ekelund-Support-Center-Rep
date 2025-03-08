@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useTheme } from '@/styles/theme/theme-context';
 import { useAuth } from '@/lib/auth/auth-context';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -8,7 +8,8 @@ import FadeInWhenVisible from '@/components/animations/fade-in-when-visible';
 import { Document, DocumentType, DocumentsDB } from '@/lib/offline/document-db';
 import DocumentViewer from '@/components/documents/document-viewer';
 
-export default function DocumentationPage() {
+// Innehållskomponenten som använder useSearchParams
+function DocumentationContent() {
   const { themeClasses } = useTheme();
   const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
@@ -339,5 +340,18 @@ export default function DocumentationPage() {
         )}
       </div>
     </div>
+  );
+}
+
+// Huvudkomponent som använder Suspense
+export default function DocumentationPage() {
+  return (
+    <Suspense fallback={
+      <div className="p-8 flex justify-center items-center min-h-screen">
+        <div className="animate-spin h-12 w-12 rounded-full border-t-2 border-b-2 border-[hsl(var(--primary))]"></div>
+      </div>
+    }>
+      <DocumentationContent />
+    </Suspense>
   );
 }

@@ -2,7 +2,12 @@
 
 import React from 'react';
 import { useTheme } from '@/styles/theme/theme-context';
-import { CustomTooltip } from '@/components/ui/simple-tooltip';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface SidebarTooltipProps {
   children: React.ReactNode;
@@ -24,16 +29,21 @@ const SidebarTooltip: React.FC<SidebarTooltipProps> = ({
   const { themeClasses } = useTheme();
   
   return (
-    <CustomTooltip
-      content={content}
-      side={side}
-      sideOffset={sideOffset}
-      hideArrow={true}
-      delayDuration={300}
-      className={`${themeClasses.cardBg} ${themeClasses.text} border ${themeClasses.border} px-3 py-1.5 text-sm shadow-md`}
-    >
-      {children}
-    </CustomTooltip>
+    <TooltipProvider>
+      <Tooltip delayDuration={300}>
+        <TooltipTrigger asChild>
+          {children}
+        </TooltipTrigger>
+        <TooltipContent 
+          side={side} 
+          sideOffset={sideOffset}
+          hideArrow={true}
+          className={`${themeClasses.cardBg} ${themeClasses.text} border ${themeClasses.border} px-3 py-1.5 text-sm shadow-md`}
+        >
+          {content}
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 };
 

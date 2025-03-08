@@ -27,7 +27,7 @@ export default function TabNavigation({
     if (defaultTab && defaultTab !== activeTab) {
       setActiveTab(defaultTab);
     }
-  }, [defaultTab]);
+  }, [defaultTab, activeTab]);
 
   const handleTabChange = (tabId: string) => {
     setActiveTab(tabId);

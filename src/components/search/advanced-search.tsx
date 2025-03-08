@@ -3,8 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTheme } from '@/styles/theme/theme-context';
 import { searcher } from '@/lib/utils/search';
-import { Document } from '@/lib/offline/dexie-db';
-import { db } from '@/lib/offline/dexie-db';
+import { Document, db } from '@/lib/offline/dexie-db';
 
 interface AdvancedSearchProps {
   onSearch: (results: { documents: Document[], totalResults: number, tags: string[] }) => void;
@@ -130,7 +129,8 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
 
       // Spara att taggen användes
       if (query.trim() && !selectedTags.includes(query.trim())) {
-        await db.table('tags').where('name').equals(tagName).first().then(existingTag => {
+        const queryTag = query.trim();
+        await db.table('tags').where('name').equals(queryTag).first().then(existingTag => {
           if (existingTag && existingTag.id) {
             return db.table('tags').update(existingTag.id, {
               count: (existingTag.count || 0) + 1,
@@ -139,7 +139,7 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
           } else {
             return db.table('tags').add({
               id: crypto.randomUUID(),
-              name: tagName,
+              name: queryTag,
               count: 1,
               updatedAt: new Date()
             });

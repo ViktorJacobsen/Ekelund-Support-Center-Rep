@@ -14,7 +14,7 @@ export default function LoginPage() {
   
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   // Markera när komponenten är fullständigt monterad på klientsidan
@@ -43,7 +43,7 @@ export default function LoginPage() {
   }, [isAuthenticated, isLoading, isMounted, router]);
   
   // Hantera inloggningsförsök
-  const handleLogin = async (e) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Inloggningsformulär skickat');
     
@@ -94,9 +94,13 @@ export default function LoginPage() {
       // Omdirigera till dashboard
       console.log('Omdirigerar till dashboard');
       router.push('/dashboard');
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Fel vid testinloggning:', error);
-      setErrorMessage(`Fel vid testinloggning: ${error.message}`);
+      if (error instanceof Error) {
+        setErrorMessage(`Fel vid testinloggning: ${error.message}`);
+      } else {
+        setErrorMessage('Okänt fel vid testinloggning');
+      }
       setIsSubmitting(false);
     }
   };

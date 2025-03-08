@@ -36,6 +36,8 @@ export default function RootLayout({
     <html lang="sv" className={`${inter.variable} ${raleway.variable} ${jetBrainsMono.variable}`} suppressHydrationWarning>
       <head>
         <ThemeScript />
+        {/* Explicit CSS import i head om det hjälper */}
+        <link rel="stylesheet" href="/globals.css" />
       </head>
       <body>
         <ThemeProvider>

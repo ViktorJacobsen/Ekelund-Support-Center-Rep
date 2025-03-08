@@ -56,7 +56,7 @@
     --letter-spacing-wider: 0.05em;
   }
 
-  .dark {
+  html.dark {
     --background: 216 37% 8%;
     --foreground: 218 5% 100%;
     --card: 216 32% 12%;

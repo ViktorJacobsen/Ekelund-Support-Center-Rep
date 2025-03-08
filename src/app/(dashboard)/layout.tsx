@@ -33,10 +33,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
         } pt-0`}>
           {/* Header */}
           <Header />
-          <div className="fixed top-4 right-4 z-50 p-4 flex gap-4">
-  <div className="h-10 w-10 bg-blue-500 dark:bg-red-500 rounded-full"></div>
-  <div className="h-10 w-10 bg-[hsl(var(--primary))] rounded-full"></div>
-</div>
           
           {/* Content */}
           {children}

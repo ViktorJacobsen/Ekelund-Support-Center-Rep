@@ -253,7 +253,7 @@ const TicketList: React.FC<TicketListProps> = ({
                   
                   <div className="flex flex-wrap justify-between items-center">
                     <div className="flex flex-wrap gap-1 mt-1">
-                      {ticket.tags.slice(0, 3).map((tag, i) => (
+                    {ticket.tags.slice(0, 3).map((tag: string, i: number) => (
                         <span
                           key={i}
                           className={`inline-block px-2 py-0.5 text-xs rounded-md bg-[hsl(var(--primary)_/_0.1)] ${themeClasses.primaryText}`}

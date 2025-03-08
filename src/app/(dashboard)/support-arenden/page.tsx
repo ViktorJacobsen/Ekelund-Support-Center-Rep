@@ -108,7 +108,7 @@ export default function SupportTicketsPage() {
             </p>
             
             <div className="flex flex-wrap gap-2 mb-6">
-              {selectedTicket.tags.map((tag, i) => (
+            {selectedTicket.tags.map((tag: string, i: number) => (
                 <span
                   key={i}
                   className={`inline-block px-2 py-0.5 text-xs rounded-md bg-[hsl(var(--primary)_/_0.1)] ${themeClasses.primaryText}`}

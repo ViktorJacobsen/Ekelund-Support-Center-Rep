@@ -14,6 +14,9 @@ interface TabNavigationProps {
   onChange?: (id: string) => void;
 }
 
+/**
+ * Tabnavigation-komponent med tematiska färger
+ */
 export default function TabNavigation({ 
   tabs, 
   defaultTab, 

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { cn } from '@/lib/utils';
 
 interface FadeInWhenVisibleProps {
   children: React.ReactNode;
@@ -50,7 +51,7 @@ const FadeInWhenVisible: React.FC<FadeInWhenVisibleProps> = ({
   };
   
   return (
-    <div ref={domRef} style={animationStyle} className={className}>
+    <div ref={domRef} style={animationStyle} className={cn(className)}>
       {children}
     </div>
   );

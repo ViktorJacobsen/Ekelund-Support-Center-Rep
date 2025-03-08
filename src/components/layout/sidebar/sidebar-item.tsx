@@ -12,6 +12,9 @@ interface SidebarItemProps {
   active?: boolean;
 }
 
+/**
+ * Temakonsekvent SidebarItem-komponent
+ */
 const SidebarItem: React.FC<SidebarItemProps> = ({ 
   icon, 
   label, 
@@ -32,9 +35,13 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
         href={href} 
         className={`flex items-center px-3 py-2 ${baseClasses} rounded-lg transition-all duration-200`}
       >
-        <svg className="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          {icon}
-        </svg>
+        {React.isValidElement(icon) ? (
+          <span className="w-5 h-5 mr-3">{icon}</span>
+        ) : (
+          <svg className="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            {icon}
+          </svg>
+        )}
         <span className="whitespace-nowrap transition-all duration-300 opacity-100">{label}</span>
       </a>
     );
@@ -45,9 +52,13 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
           href={href} 
           className={`p-2 h-9 w-9 ${baseClasses} justify-center rounded-lg transition-all duration-200 flex items-center`}
         >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            {icon}
-          </svg>
+          {React.isValidElement(icon) ? (
+            <span className="w-5 h-5">{icon}</span>
+          ) : (
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              {icon}
+            </svg>
+          )}
         </a>
       </SidebarTooltip>
     );

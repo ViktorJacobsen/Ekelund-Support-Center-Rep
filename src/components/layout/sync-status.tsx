@@ -7,6 +7,9 @@ interface SyncStatusProps {
   expanded?: boolean;
 }
 
+/**
+ * Synkroniseringsstatus-komponent som använder tematiska färger
+ */
 const SyncStatus: React.FC<SyncStatusProps> = ({ expanded = false }) => {
   const { themeClasses } = useTheme();
   const [syncStatus, setSyncStatus] = useState({
@@ -59,16 +62,37 @@ const SyncStatus: React.FC<SyncStatusProps> = ({ expanded = false }) => {
     return syncStatus.lastSyncTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
+  // Använd tematiska klasser för statusindikatorn istället för direkta färger
+  const getStatusIndicatorClass = () => {
+    if (!syncStatus.isOnline) {
+      return `bg-[hsl(var(--destructive)_/_0.5)]`; // Offline
+    } else if (syncStatus.isSyncing) {
+      return `bg-[hsl(var(--primary)_/_0.7)]`; // Synkar
+    } else {
+      return `bg-[hsl(var(--primary)_/_0.5)]`; // Online
+    }
+  };
+
+  const getStatusText = () => {
+    if (!syncStatus.isOnline) {
+      return "Offline";
+    } else if (syncStatus.isSyncing) {
+      return "Synkar...";
+    } else {
+      return "Synk";
+    }
+  };
+
   if (expanded) {
     return (
       <div className={`rounded-lg ${themeClasses.bg} border ${themeClasses.border} group transition-all duration-300 ${themeClasses.hoverBorder} hover:shadow-md overflow-hidden`}>
         {/* Compact view (always visible) */}
         <div className="p-2 flex items-center justify-between">
           <div className="flex items-center">
-            <span className={`w-3 h-3 rounded-full ${syncStatus.isOnline ? (syncStatus.isSyncing ? 'bg-blue-500' : 'bg-green-500') : 'bg-orange-500'} ${syncStatus.isSyncing ? 'animate-pulse' : ''}`}></span>
+            <span className={`w-3 h-3 rounded-full ${getStatusIndicatorClass()} ${syncStatus.isSyncing ? 'animate-pulse' : ''}`}></span>
           </div>
           <span className={`text-xs ${themeClasses.primaryText} ml-2`}>
-            {syncStatus.isOnline ? (syncStatus.isSyncing ? 'Synkar...' : 'Synk') : 'Offline'}
+            {getStatusText()}
           </span>
           
           {/* "Expand" icon */}
@@ -83,7 +107,7 @@ const SyncStatus: React.FC<SyncStatusProps> = ({ expanded = false }) => {
           <div className={`px-3 pb-3 pt-1 border-t ${themeClasses.border}/50`}>
             <div className="flex items-center">
               <span className={`text-xs ${themeClasses.mutedText}`}>
-                Status: {syncStatus.isOnline ? (syncStatus.isSyncing ? 'Synkroniserar' : 'Online') : 'Offline'}
+                Status: {syncStatus.isOnline ? (syncStatus.isSyncing ? "Synkroniserar" : "Online") : "Offline"}
               </span>
             </div>
             <div className="flex justify-between items-center mt-2">
@@ -99,7 +123,7 @@ const SyncStatus: React.FC<SyncStatusProps> = ({ expanded = false }) => {
       <div className="relative group" style={{ isolation: 'isolate' }}>
         {/* Minimized circle */}
         <div className={`w-8 h-8 rounded-full ${themeClasses.bg} border ${themeClasses.border} flex items-center justify-center transition-all duration-300 ${themeClasses.hoverBorder} hover:shadow-md`}>
-          <span className={`w-3 h-3 rounded-full ${syncStatus.isOnline ? (syncStatus.isSyncing ? 'bg-blue-500' : 'bg-green-500') : 'bg-orange-500'} ${syncStatus.isSyncing ? 'animate-pulse' : ''}`}></span>
+          <span className={`w-3 h-3 rounded-full ${getStatusIndicatorClass()} ${syncStatus.isSyncing ? 'animate-pulse' : ''}`}></span>
         </div>
         
         {/* Popup on hover - with extreme z-index to ensure it's above everything */}
@@ -111,9 +135,9 @@ const SyncStatus: React.FC<SyncStatusProps> = ({ expanded = false }) => {
           }}>
           <div className={`rounded-lg ${themeClasses.bg} border ${themeClasses.border} shadow-lg p-3`}>
             <div className="flex items-center justify-center mb-2">
-              <span className={`w-2 h-2 rounded-full ${syncStatus.isOnline ? (syncStatus.isSyncing ? 'bg-blue-500' : 'bg-green-500') : 'bg-orange-500'} mr-2 ${syncStatus.isSyncing ? 'animate-pulse' : ''}`}></span>
+              <span className={`w-2 h-2 rounded-full ${getStatusIndicatorClass()} mr-2 ${syncStatus.isSyncing ? 'animate-pulse' : ''}`}></span>
               <span className={`text-xs ${themeClasses.mutedText}`}>
-                Status: {syncStatus.isOnline ? (syncStatus.isSyncing ? 'Synkroniserar' : 'Online') : 'Offline'}
+                Status: {syncStatus.isOnline ? (syncStatus.isSyncing ? "Synkroniserar" : "Online") : "Offline"}
               </span>
             </div>
             <div className="flex justify-between items-center">

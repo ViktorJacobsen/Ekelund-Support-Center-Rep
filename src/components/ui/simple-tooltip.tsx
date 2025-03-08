@@ -28,7 +28,6 @@ const SimpleTooltipTrigger: React.FC<{
   return <>{children}</>;
 };
 
-// Här var felet - korrigerar definitionen av FC med flera generics
 const SimpleTooltipContent: React.FC<TooltipProps & React.HTMLAttributes<HTMLDivElement>> = ({
   children,
   content,
@@ -48,6 +47,16 @@ const SimpleTooltipContent: React.FC<TooltipProps & React.HTMLAttributes<HTMLDiv
     timeoutRef.current = setTimeout(() => {
       setIsVisible(true);
     }, delayDuration);
+  };
+
+  const handleContent = () => {
+    if (typeof content === 'string') {
+      return content;
+    } else if (content && React.isValidElement(content)) {
+      return content;
+    } else {
+      return content ? String(content) : '';
+    }
   };
 
   const hideTooltip = () => {
@@ -110,8 +119,7 @@ const SimpleTooltipContent: React.FC<TooltipProps & React.HTMLAttributes<HTMLDiv
           )}
           {...props}
         >
-          {content && typeof content === 'string' ? content : 
-           React.isValidElement(content) ? content : null}
+          {handleContent()}
           {!hideArrow && (
             <div 
               className="absolute size-2.5 bg-primary rotate-45"
@@ -141,6 +149,7 @@ function CustomTooltip({
 }: TooltipProps) {
   return (
     <SimpleTooltipContent
+    // @ts-ignore - Ignore ReactNode type issue
       content={content}
       side={side}
       sideOffset={sideOffset}

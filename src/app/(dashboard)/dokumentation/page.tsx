@@ -5,7 +5,7 @@ import { useTheme } from '@/styles/theme/theme-context';
 import { useAuth } from '@/lib/auth/auth-context';
 import { useRouter, useSearchParams } from 'next/navigation';
 import FadeInWhenVisible from '@/components/animations/fade-in-when-visible';
-import { DocumentMetadata, DocumentType, DocumentsDB } from '@/lib/offline/document-db';
+import { Document, DocumentType, DocumentsDB } from '@/lib/offline/document-db';
 import DocumentViewer from '@/components/documents/document-viewer';
 
 export default function DocumentationPage() {
@@ -14,7 +14,7 @@ export default function DocumentationPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   
-  const [documents, setDocuments] = useState<DocumentMetadata[]>([]);
+  const [documents, setDocuments] = useState<Document[]>([]);
   const [categories, setCategories] = useState<{ id: string; name: string; parentId?: string }[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [selectedType, setSelectedType] = useState<DocumentType | ''>('');
@@ -308,7 +308,7 @@ export default function DocumentationPage() {
                     )}
                     
                     <div className="flex flex-wrap gap-1 mb-4">
-                      {doc.tags.slice(0, 3).map((tag, i) => (
+                      {doc.tags.slice(0, 3).map((tag: string, i: number) => (
                         <span
                           key={i}
                           className={`inline-block px-2 py-0.5 text-xs rounded-md bg-[hsl(var(--primary)_/_0.1)] ${themeClasses.primaryText}`}

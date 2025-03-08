@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '@/styles/theme/theme-context';
-import { DocumentMetadata, DocumentContent, DocumentsDB } from '@/lib/offline/document-db';
+import { Document, DocumentType, DocumentsDB } from '@/lib/offline/document-db';
 import FadeInWhenVisible from '@/components/animations/fade-in-when-visible';
 
 interface DocumentViewerProps {
@@ -16,7 +16,7 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({
 }) => {
   const { themeClasses } = useTheme();
   
-  const [document, setDocument] = useState<DocumentMetadata | null>(null);
+  const [document, setDocument] = useState<Document | null>(null);
   const [content, setContent] = useState<string | ArrayBuffer | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -33,7 +33,7 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({
     
     try {
       // Hämta dokumentmetadata
-      const metadata = await DocumentsDB.getDocumentMetadata(documentId);
+      const metadata = await DocumentsDB.getDocument(documentId);
       
       if (!metadata) {
         throw new Error(`Document with ID ${documentId} not found`);
@@ -202,7 +202,7 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({
               )}
               
               <div className="flex flex-wrap gap-1 mb-4">
-                {document.tags.map((tag, i) => (
+                {document.tags.map((tag: string, i: number) => (
                   <span
                     key={i}
                     className={`inline-block px-2 py-0.5 text-xs rounded-md bg-[hsl(var(--primary)_/_0.1)] ${themeClasses.primaryText}`}

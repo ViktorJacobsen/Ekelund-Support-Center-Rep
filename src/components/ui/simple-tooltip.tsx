@@ -28,7 +28,7 @@ const SimpleTooltipTrigger: React.FC<{
   return <>{children}</>;
 };
 
-const SimpleTooltipContent: React.FC<
+const SimpleTooltipContent: React.FC
   TooltipProps & React.HTMLAttributes<HTMLDivElement>
 > = ({
   children,
@@ -111,7 +111,8 @@ const SimpleTooltipContent: React.FC<
           )}
           {...props}
         >
-          {content}
+          {content && typeof content === 'string' ? content : 
+           React.isValidElement(content) ? content : null}
           {!hideArrow && (
             <div 
               className="absolute size-2.5 bg-primary rotate-45"

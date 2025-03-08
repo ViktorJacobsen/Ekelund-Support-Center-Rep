@@ -10,7 +10,7 @@ export default function Header() {
 
   return (
     <header 
-      className={`${themeClasses.cardBg} backdrop-blur-sm border-b ${themeClasses.border} sticky top-0 z-30 transition-transform duration-300 ${
+    className={`${themeClasses.cardBg} backdrop-blur-sm border-b ${themeClasses.border} sticky top-0 z-30 transition-transform duration-300 ${
         isHeaderVisible ? 'translate-y-0' : '-translate-y-full shadow-lg'
       } ml-0`}
     >

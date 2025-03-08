@@ -240,7 +240,7 @@ export default function DashboardPage() {
         
         {/* Huvudinnehåll */}
         <main className={`flex-1 transition-all duration-300 ${
-          sidebarExpanded ? 'ml-64' : 'ml-16'
+          sidebarExpanded ? 'ml-48' : 'ml-0'
         } pt-0`}>
           {/* Header */}
           <Header />
@@ -263,7 +263,7 @@ export default function DashboardPage() {
                 { id: 'categories', label: 'Kategorier' },
                 { id: 'updates', label: 'Uppdateringar' },
               ]}
-              defaultTab="popular"
+              activeTab={activeSection} // Pass activeSection as activeTab instead of defaultTab
               onChange={setActiveSection}
             />
             

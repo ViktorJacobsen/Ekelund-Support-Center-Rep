@@ -23,26 +23,32 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   active = false 
 }) => {
   const { themeClasses } = useTheme();
+
+  // Bestäm färg för ikonen och texten beroende på om objektet är aktivt
+  const iconColor = active 
+    ? themeClasses.primaryText   // ikonen blir primary-färgad om aktiv
+    : themeClasses.sidebarText;
   
-  // Bestäm styling baserat på om elementet är aktivt
-  const baseClasses = active 
-    ? `${themeClasses.primaryText} ${expanded ? 'bg-[hsl(var(--primary)_/_0.1)]' : 'bg-[hsl(var(--primary)_/_0.1)]'}`
-    : `${themeClasses.sidebarText} hover:${themeClasses.text} hover:bg-[hsl(var(--primary)_/_0.1)]`;
+  // Textfärgen förblir sidebarText även om objektet är aktivt
+  const labelColor = themeClasses.sidebarText;
+  
+  // Bestäm bakgrund (aktiv bakgrund)
+  const backgroundClasses = active 
+    ? 'bg-[hsl(var(--primary)_/_0.1)]'
+    : 'hover:bg-[hsl(var(--primary)_/_0.1)]';
   
   if (expanded) {
     return (
       <a 
         href={href} 
-        className={`flex items-center px-3 py-2 ${baseClasses} rounded-lg transition-all duration-200`}
+        className={`flex items-center px-3 py-2 ${backgroundClasses} rounded-lg transition-all duration-200`}
       >
-        {React.isValidElement(icon) ? (
-          <span className="w-5 h-5 mr-3">{icon}</span>
-        ) : (
-          <svg className="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            {icon}
-          </svg>
-        )}
-        <span className="whitespace-nowrap transition-all duration-300 opacity-100">{label}</span>
+        <span className={`w-5 h-5 mr-3 ${iconColor}`}>
+          {icon}
+        </span>
+        <span className={`whitespace-nowrap transition-all duration-300 ${labelColor}`}>
+          {label}
+        </span>
       </a>
     );
   } else {
@@ -50,15 +56,9 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
       <SidebarTooltip content={label}>
         <a 
           href={href} 
-          className={`p-2 h-9 w-9 ${baseClasses} justify-center rounded-lg transition-all duration-200 flex items-center`}
+          className={`p-2 h-9 w-9 ${iconColor} justify-center rounded-lg ${backgroundClasses} transition-all duration-200 flex items-center`}
         >
-          {React.isValidElement(icon) ? (
-            <span className="w-5 h-5">{icon}</span>
-          ) : (
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              {icon}
-            </svg>
-          )}
+          <span className="w-5 h-5">{icon}</span>
         </a>
       </SidebarTooltip>
     );

@@ -7,7 +7,7 @@ import { getThemeClasses } from './theme-variables';
 const lightThemeValues = {
     '--background': '218 32% 100%',
     '--foreground': '218 5% 10%',
-    '--card': '218 32% 100%',
+    '--card': '218 30% 90%',
     '--card-foreground': '218 5% 15%',
     '--popover': '218 32% 100%',
     '--popover-foreground': '218 95% 10%',
@@ -66,7 +66,7 @@ const ThemeContext = createContext<ThemeContextType>(defaultContext);
 
 export const useTheme = () => useContext(ThemeContext);
 
-// ThemeScript justeras för att passa Next.js 13 bättre
+// Förbättrad ThemeScript
 export function ThemeScript() {
   return (
     <script
@@ -86,13 +86,13 @@ export function ThemeScript() {
           } catch (e) {
             console.error("Theme script error:", e);
           }
-        `,
+        `
       }}
     />
   );
 }
 
-// ThemeProvider med förbättrad kompabilitet
+// Förbättrad ThemeProvider
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [darkMode, setDarkMode] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -102,17 +102,13 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   // Synka med system-preferens och localStorage
   useEffect(() => {
     try {
-      const savedTheme = localStorage.getItem('theme');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      
-      const shouldBeDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
-      setDarkMode(shouldBeDark);
-      
-      // Force update av DOM
-      if (shouldBeDark) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
+      // Kolla först om vi kör på klientsidan
+      if (typeof window !== 'undefined') {
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        const shouldBeDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+        setDarkMode(shouldBeDark);
       }
     } catch (e) {
       console.error("Theme initialization error:", e);
@@ -122,7 +118,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }, []);
   
   // Uppdatera tema när darkMode ändras
-  // In your ThemeProvider component
   useEffect(() => {
     if (!mounted) return;
     
@@ -131,7 +126,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     if (darkMode) {
       root.classList.add('dark');
       
-      // Applicera alla mörka temavärden
+      // För extra säkerhet, applicera alla CSS-variabler manuellt också
       Object.entries(darkThemeValues).forEach(([property, value]) => {
         root.style.setProperty(property, value);
       });
@@ -142,7 +137,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     } else {
       root.classList.remove('dark');
       
-      // Applicera alla ljusa temavärden
       Object.entries(lightThemeValues).forEach(([property, value]) => {
         root.style.setProperty(property, value);
       });

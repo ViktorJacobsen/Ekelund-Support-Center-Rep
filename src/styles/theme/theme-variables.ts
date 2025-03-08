@@ -66,5 +66,7 @@ export const getThemeClasses = () => {
     // UI-text
     uiLabel: "font-[var(--font-sans)] font-medium",
     uiText: "font-[var(--font-sans)] text-sm",
+
+    dividerBorder: "border-[hsl(var(--divider))]",
   };
 };

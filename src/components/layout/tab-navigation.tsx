@@ -11,6 +11,7 @@ interface Tab {
 interface TabNavigationProps {
   tabs: Tab[];
   defaultTab?: string;
+  activeTab?: string; // Add this prop to support controlled mode
   onChange?: (id: string) => void;
 }
 
@@ -20,20 +21,28 @@ interface TabNavigationProps {
 export default function TabNavigation({ 
   tabs, 
   defaultTab, 
+  activeTab, // New prop for controlled mode
   onChange 
 }: TabNavigationProps) {
   const { themeClasses } = useTheme();
-  const [activeTab, setActiveTab] = useState(defaultTab || tabs[0]?.id || '');
+  const [internalActiveTab, setInternalActiveTab] = useState(
+    defaultTab || tabs[0]?.id || ''
+  );
+  
+  // Use activeTab if provided (controlled mode), otherwise use internal state (uncontrolled mode)
+  const currentTab = activeTab !== undefined ? activeTab : internalActiveTab;
 
-  // Om defaultTab ändras, uppdatera activeTab
+  // Update internal state if activeTab changes
   useEffect(() => {
-    if (defaultTab && defaultTab !== activeTab) {
-      setActiveTab(defaultTab);
+    if (activeTab !== undefined) {
+      setInternalActiveTab(activeTab);
+    } else if (defaultTab && defaultTab !== internalActiveTab) {
+      setInternalActiveTab(defaultTab);
     }
-  }, [defaultTab, activeTab]);
+  }, [activeTab, defaultTab, internalActiveTab]);
 
   const handleTabChange = (tabId: string) => {
-    setActiveTab(tabId);
+    setInternalActiveTab(tabId);
     if (onChange) {
       onChange(tabId);
     }
@@ -47,10 +56,12 @@ export default function TabNavigation({
             key={tab.id}
             onClick={() => handleTabChange(tab.id)}
             className={`px-5 py-3 text-sm ${themeClasses.uiLabel} transition-all duration-300 border-b-2 -mb-px whitespace-nowrap ${
-              activeTab === tab.id
+              currentTab === tab.id
                 ? `${themeClasses.primaryText} border-[hsl(var(--primary))]`
                 : `${themeClasses.mutedText} border-transparent hover:${themeClasses.text} hover:border-[hsl(var(--border))]`
             }`}
+            role="tab"
+            aria-selected={currentTab === tab.id}
           >
             {tab.label}
           </button>

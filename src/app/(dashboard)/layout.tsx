@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useTheme } from '@/styles/theme/theme-context';
 import Sidebar from '@/components/layout/sidebar/sidebar';
-import Header from '@/components/layout/header/header';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -31,8 +30,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
         <main className={`flex-1 transition-all duration-300 ${
           sidebarExpanded ? 'ml-64' : 'ml-16'
         } pt-0`}>
-          {/* Header */}
-          <Header />
           
           {/* Content */}
           {children}

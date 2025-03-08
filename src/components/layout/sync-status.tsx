@@ -104,7 +104,7 @@ const SyncStatus: React.FC<SyncStatusProps> = ({ expanded = false }) => {
         
         {/* Expanded information (visible on hover) */}
         <div className="max-h-0 group-hover:max-h-20 opacity-0 group-hover:opacity-100 transition-all duration-300 overflow-hidden">
-          <div className={`px-3 pb-3 pt-1 border-t ${themeClasses.border}/50`}>
+        <div className="px-3 pb-3 pt-1 border-t border-[hsl(var(--divider))]/30">
             <div className="flex items-center">
               <span className={`text-xs ${themeClasses.mutedText}`}>
                 Status: {syncStatus.isOnline ? (syncStatus.isSyncing ? "Synkroniserar" : "Online") : "Offline"}

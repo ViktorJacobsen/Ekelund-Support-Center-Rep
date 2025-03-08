@@ -1,41 +1,95 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Next.js build output
+.next/
+out/
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
-
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
+# Node.js
+node_modules/
+# Specifika stora filer (över 100MB)
+**/*.node
+# Specifikt för Next.js SWC-compiler
+**/next-swc*.node
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
+package-lock.json
+.pnpm-lock.yaml
+.npm/
 
-# env files (can opt-in for committing if needed)
-.env*
+# Loggar
+logs
+*.log
 
-# vercel
+# Miljövariabler
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Debug
+.debug/
+
+# Verktygsspecifika filer
+.turbo
 .vercel
+.coverage
+.nyc_output
+coverage/
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# Supabase
+.supabase/
+
+# Tesseract.js genererade filer
+*.traineddata
+
+# Cache och tillfälliga filer
+.cache/
+tmp/
+temp/
+dist/
+build/
+
+# Operativsystem
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# IDE och editorer
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.settings/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Lokala typedefinitioner
+types/generated/
+
+# Installerade binärfiler
+bin/
+lib/
+
+# Databaser
+*.sqlite
+*.db
+
+# Exporterade filer
+*.pdf
+*.xlsx
+*.csv
+*.zip
+/exports/
+
+# Uppladdningar
+/uploads/
+/public/uploads/
+
+# Genererade filer
+/src/generated/

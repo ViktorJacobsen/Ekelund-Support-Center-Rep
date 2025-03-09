@@ -2,9 +2,9 @@
 
 import React from 'react';
 import { MuiAppProvider } from '@/components/mui-core/MuiAppProvider';
-import { DashboardLayout } from '@/components/mui-core/DashboardLayout';
+import { DashboardLayout as DashboardComponent } from '@/components/mui-core/DashboardLayout';
 
-// Import icons from Material UI
+// Icons
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ArticleIcon from '@mui/icons-material/Article';
 import BuildIcon from '@mui/icons-material/Build';
@@ -12,25 +12,27 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import InstallDesktopIcon from '@mui/icons-material/InstallDesktop';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+// import HelpIcon from '@mui/icons-material/Help';  // Ta bort om den inte används
+import { NavigationItems, NavigationDivider, NavigationHeader, NavigationItem } from '@/types/navigation';
 
-// Configure navigation structure
-const NAVIGATION = [
+// Definiera navigationsstrukturen med korrekta typer
+const NAVIGATION: NavigationItems = [
   {
     kind: 'header',
     title: 'Huvudmeny',
-  },
+  } as NavigationHeader,
   {
     segment: 'dashboard',
     title: 'Översikt',
     icon: <DashboardIcon />,
-  },
+  } as NavigationItem,
   {
-    kind: 'divider',
-  },
+    kind: 'divider', // Säkerställ att detta stämmer med NavigationDivider
+  } as NavigationDivider,
   {
     kind: 'header',
     title: 'Dokumentation',
-  },
+  } as NavigationHeader,
   {
     segment: 'dokumentation',
     title: 'Dokumentation',
@@ -47,14 +49,14 @@ const NAVIGATION = [
         icon: <MenuBookIcon />,
       },
     ],
-  },
+  } as NavigationItem,
   {
     kind: 'divider',
-  },
+  } as NavigationDivider,
   {
     kind: 'header',
     title: 'Verktyg',
-  },
+  } as NavigationHeader,
   {
     segment: 'verktyg',
     title: 'Verktyg',
@@ -71,19 +73,21 @@ const NAVIGATION = [
         icon: <DescriptionIcon />,
       },
     ],
-  },
+  } as NavigationItem,
 ];
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
 }
 
-export default function DashboardLayoutWrapper({ children }: DashboardLayoutProps) {
+// Denna funktion har samma namn som importen, vilket orsakar konflikten
+export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <MuiAppProvider navigation={NAVIGATION}>
-      <DashboardLayout>
+      {/* Använd det nya namnet här */}
+      <DashboardComponent>
         {children}
-      </DashboardLayout>
+      </DashboardComponent>
     </MuiAppProvider>
   );
 }

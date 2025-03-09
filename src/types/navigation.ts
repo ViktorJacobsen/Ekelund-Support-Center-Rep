@@ -10,12 +10,12 @@ export interface NavigationItem {
 
 // Avgränsare i navigeringen
 export interface NavigationDivider {
-  kind: 'divider';
+  kind: 'divider';  // Använd literal type här
 }
 
 // Rubrik i navigeringen
 export interface NavigationHeader {
-  kind: 'header';
+  kind: 'header';   // Använd literal type här
   title: string;
 }
 

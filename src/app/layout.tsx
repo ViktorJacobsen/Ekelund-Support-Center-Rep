@@ -1,10 +1,11 @@
+// Kontrollera om det finns några oavslutade strängar, parenteser eller liknande
+// Säkerställ att alla imports är korrekta
 import './globals.css';
 import { Inter, Raleway, JetBrains_Mono } from 'next/font/google';
-import { MuiThemeProvider } from '@/styles/theme/MuiThemeProvider';
 import { ThemeProvider, ThemeScript } from '@/styles/theme/theme-context';
 import { Toaster } from '@/components/ui/sonner';
 
-// Konfigurera typsnitt med rätt undergrupper
+// Säkerställ att fontvariabler är korrekt konfigurerade
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
@@ -41,10 +42,8 @@ export default function RootLayout({
       </head>
       <body>
         <ThemeProvider>
-          <MuiThemeProvider>
-            {children}
-            <Toaster />
-          </MuiThemeProvider>
+          {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

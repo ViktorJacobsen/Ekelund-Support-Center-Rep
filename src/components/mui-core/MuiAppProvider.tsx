@@ -4,7 +4,7 @@ import React, { ReactNode, useMemo } from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { useTheme } from '@/styles/theme/theme-context';
-import { getTheme } from '@/styles/theme/mui-theme';
+import { lightTheme, darkTheme } from '@/styles/theme/mui-theme';
 
 // Importera typerna från den nya typfilen
 import { 
@@ -79,7 +79,7 @@ export function MuiAppProvider({ children, navigation }: MuiAppProviderProps) {
   const router = useMinimalRouter();
   
   // Skapa rätt MUI-tema baserat på darkMode
-  const muiTheme = React.useMemo(() => getTheme(darkMode), [darkMode]);
+  const muiTheme = React.useMemo(() => darkMode ? darkTheme : lightTheme, [darkMode]);
   
   // Skapa context-värdet
   const contextValue = useMemo(() => ({

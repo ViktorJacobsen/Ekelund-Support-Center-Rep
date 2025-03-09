@@ -1,10 +1,10 @@
 'use client';
 
 import React, { ReactNode } from 'react';
-import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { useTheme } from '@/styles/theme/theme-context';
-import getTheme from './mui-theme';
+import { lightTheme, darkTheme } from './mui-theme'; // Importera temana direkt istället för funktionen
 
 interface MuiThemeProviderProps {
   children: ReactNode;
@@ -17,14 +17,14 @@ interface MuiThemeProviderProps {
 export function MuiThemeProvider({ children }: MuiThemeProviderProps) {
   const { darkMode } = useTheme();
   
-  // Hämta rätt MUI-tema baserat på darkMode
-  const theme = React.useMemo(() => getTheme(darkMode), [darkMode]);
+  // Välj tema direkt istället för att anropa getTheme-funktionen
+  const theme = React.useMemo(() => darkMode ? darkTheme : lightTheme, [darkMode]);
   
   return (
-    <MuiThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       {children}
-    </MuiThemeProvider>
+    </ThemeProvider>
   );
 }
 

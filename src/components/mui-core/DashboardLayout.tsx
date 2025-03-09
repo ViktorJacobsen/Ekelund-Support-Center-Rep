@@ -3,8 +3,8 @@
 import * as React from 'react';
 import { styled, useTheme as useMuiTheme, Theme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import MuiDrawer from '@mui/material/Drawer';
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import Drawer from '@mui/material/Drawer';
+import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
@@ -18,8 +18,6 @@ import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import Badge from '@mui/material/Badge';
 import Tooltip from '@mui/material/Tooltip';
-// Container används i PageContainer, inte här
-// import Container from '@mui/material/Container';
 
 // Icons
 import MenuIcon from '@mui/icons-material/Menu';
@@ -40,28 +38,7 @@ import { NavigationItem, NavigationItems } from '@/types/navigation';
 
 const drawerWidth = 240;
 
-// Styled components for the drawer - ändra any till Theme
-const openedMixin = (theme: Theme) => ({
-  width: drawerWidth,
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
-  }),
-  overflowX: 'hidden',
-});
-
-const closedMixin = (theme: Theme) => ({
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  overflowX: 'hidden',
-  width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
-  },
-});
-
+// Styled header komponent
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
@@ -69,48 +46,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
-}));
-
-interface AppBarProps extends MuiAppBarProps {
-  open?: boolean;
-}
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})<AppBarProps>(({ theme, open }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(['width', 'margin'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
-// Fixa Drawer-komponenten - vi måste definiera interfacet först
-interface DrawerProps {
-  open?: boolean;
-}
-
-const Drawer = styled(MuiDrawer)<DrawerProps>(({ theme, open }) => ({
-  width: drawerWidth,
-  flexShrink: 0,
-  whiteSpace: 'nowrap',
-  boxSizing: 'border-box',
-  ...(open && {
-    ...openedMixin(theme),
-    '& .MuiDrawer-paper': openedMixin(theme),
-  }),
-  ...(!open && {
-    ...closedMixin(theme),
-    '& .MuiDrawer-paper': closedMixin(theme),
-  }),
 }));
 
 // Props for the dashboard layout
@@ -138,6 +73,28 @@ export function DashboardLayout({
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  // Define mixins as functions
+  const getOpenedMixin = () => ({
+    width: drawerWidth,
+    transition: muiTheme.transitions.create('width', {
+      easing: muiTheme.transitions.easing.sharp,
+      duration: muiTheme.transitions.duration.enteringScreen,
+    }),
+    overflowX: 'hidden',
+  });
+
+  const getClosedMixin = () => ({
+    transition: muiTheme.transitions.create('width', {
+      easing: muiTheme.transitions.easing.sharp,
+      duration: muiTheme.transitions.duration.leavingScreen,
+    }),
+    overflowX: 'hidden',
+    width: `calc(${muiTheme.spacing(7)} + 1px)`,
+    [muiTheme.breakpoints.up('sm')]: {
+      width: `calc(${muiTheme.spacing(8)} + 1px)`,
+    },
+  });
 
   // Handle expanding/collapsing navigation items
   const toggleExpanded = (segment: string) => {
@@ -207,7 +164,7 @@ export function DashboardLayout({
           </ListItemButton>
         </ListItem>
 
-        {/* Render children if any - gör en null-check */}
+        {/* Render children if any */}
         {hasChildren && item.children && (
           <Collapse in={open && isExpanded} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
@@ -314,7 +271,26 @@ export function DashboardLayout({
           {customHeader}
         </Box>
       ) : (
-        <AppBar position="fixed" open={open} elevation={0} color="inherit">
+        <AppBar 
+          position="fixed" 
+          elevation={0} 
+          color="inherit"
+          sx={{
+            zIndex: (theme) => theme.zIndex.drawer + 1,
+            transition: muiTheme.transitions.create(['width', 'margin'], {
+              easing: muiTheme.transitions.easing.sharp,
+              duration: muiTheme.transitions.duration.leavingScreen,
+            }),
+            ...(open && {
+              marginLeft: drawerWidth,
+              width: `calc(100% - ${drawerWidth}px)`,
+              transition: muiTheme.transitions.create(['width', 'margin'], {
+                easing: muiTheme.transitions.easing.sharp,
+                duration: muiTheme.transitions.duration.enteringScreen,
+              }),
+            }),
+          }}
+        >
           <Toolbar>
             <IconButton
               color="inherit"
@@ -368,7 +344,26 @@ export function DashboardLayout({
           </Toolbar>
         </AppBar>
       )}
-      <Drawer variant="permanent" open={open}>
+      
+      {/* Ersätt styled Drawer med vanlig Drawer + sx-props */}
+      <Drawer
+        variant="permanent"
+        open={open}
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          whiteSpace: 'nowrap',
+          boxSizing: 'border-box',
+          ...(open && {
+            ...getOpenedMixin(),
+            '& .MuiDrawer-paper': getOpenedMixin(),
+          }),
+          ...(!open && {
+            ...getClosedMixin(),
+            '& .MuiDrawer-paper': getClosedMixin(),
+          }),
+        }}
+      >
         <DrawerHeader>
           <Box sx={{ 
             display: 'flex', 
@@ -473,7 +468,7 @@ export function DashboardLayout({
         mt: customHeader ? { xs: 7, sm: 8 } : 0 
       }}>
         {!customHeader && <DrawerHeader />}
-        {customHeader && <Box sx={{ height: { xs: 56, sm: 64 } }} />} {/* Ersätt DrawerHeader med utrymme för custom header */}
+        {customHeader && <Box sx={{ height: { xs: 56, sm: 64 } }} />}
         <PageContainer>
           {children}
         </PageContainer>

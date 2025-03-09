@@ -2,8 +2,6 @@
 
 import React, { useState } from 'react';
 import { useTheme } from '@/styles/theme/theme-context';
-import Sidebar from '@/components/layout/sidebar/sidebar';
-import Header from '@/components/layout/header/header';
 import Search from '@/components/layout/header/search';
 import TabNavigation from '@/components/layout/tab-navigation';
 import DocumentCard from '@/components/dashboard/document-card';
@@ -14,12 +12,7 @@ import FadeInWhenVisible from '@/components/animations/fade-in-when-visible';
 
 export default function DashboardPage() {
   const { themeClasses } = useTheme();
-  const [sidebarExpanded, setSidebarExpanded] = useState(false);
   const [activeSection, setActiveSection] = useState('popular');
-
-  const toggleSidebar = () => {
-    setSidebarExpanded(!sidebarExpanded);
-  };
 
   // Exempel på dokumentdata
   const recentDocuments = [
@@ -172,7 +165,7 @@ export default function DashboardPage() {
                     {recentActivities.map((update, i) => (
                       <div key={i} className={`p-4 rounded-lg ${themeClasses.bg} border ${themeClasses.border} ${themeClasses.hoverBorder} group/item cursor-pointer transition-all duration-300 hover:translate-x-1`}>
                         <div className="flex items-start">
-                          <div className={`p-2 rounded-lg ${themeClasses.primaryGradient} ${themeClasses.primaryFg} mr-4 transition-transform duration-300 group-hover/item:scale-110`}>
+                          <div className={`p-2 rounded-lg ${themeClasses.primary} ${themeClasses.primaryFg} mr-4 transition-transform duration-300 group-hover/item:scale-110`}>
                             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={update.type === 'document' ? 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' : 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253'} />
                             </svg>
@@ -207,7 +200,7 @@ export default function DashboardPage() {
                     <h4 className={`text-lg ${themeClasses.subheading} ${themeClasses.text} transition-colors duration-300 group-hover/update:${themeClasses.primaryText}`}>Nytt supportcenter</h4>
                     <p className={`text-sm ${themeClasses.bodyText} ${themeClasses.mutedText} mb-4`}>Komplett uppdatering av supportcentret med nya funktioner och förbättrad sökning.</p>
                     <div className="w-full bg-[hsl(var(--secondary))] h-2.5 rounded-full overflow-hidden">
-                      <div className={`${themeClasses.primaryGradient} h-2.5 rounded-full transition-all duration-1000 ease-in-out`} style={{width: '75%'}}></div>
+                      <div className={`${themeClasses.primary} h-2.5 rounded-full transition-all duration-1000 ease-in-out`} style={{width: '75%'}}></div>
                     </div>
                     <span className={`text-xs ${themeClasses.mutedText} mt-2 inline-block`}>75% färdigt</span>
                   </div>
@@ -233,47 +226,34 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className={`min-h-screen ${themeClasses.bodyText} ${themeClasses.bg} ${themeClasses.text}`}>
-      <div className="flex">
-        {/* Sidebar */}
-        <Sidebar expanded={sidebarExpanded} onToggle={toggleSidebar} />
-        
-        {/* Huvudinnehåll */}
-        <main className={`flex-1 transition-all duration-300 ${
-          sidebarExpanded ? 'ml-48' : 'ml-0'
-        } pt-0`}>
-          {/* Header */}
-          <Header />
-          
-          {/* Hero Section with Search */}
-          <div className={`${themeClasses.bg} border-b ${themeClasses.border}`}>
-            <Search 
-              placeholder="Sök efter dokumentation, guider eller verktyg..."
-              tags={["Installation", "Felsökning", "Konfiguration", "Manualer"]}
-              onSearch={(query) => console.log('Sökning:', query)}
-            />
-          </div>
-          
-          {/* Content Section with Tab Navigation */}
-          <div className="px-6 py-10">
-            {/* Tab Navigation */}
-            <TabNavigation 
-              tabs={[
-                { id: 'popular', label: 'Populärt innehåll' },
-                { id: 'categories', label: 'Kategorier' },
-                { id: 'updates', label: 'Uppdateringar' },
-              ]}
-              activeTab={activeSection} // Pass activeSection as activeTab instead of defaultTab
-              onChange={setActiveSection}
-            />
-            
-            {/* Section Content */}
-            <div className="max-w-7xl mx-auto">
-              {renderTabContent()}
-            </div>
-          </div>
-        </main>
+    <>
+      {/* Hero Section with Search */}
+      <div className={`${themeClasses.bg} border-b ${themeClasses.border}`}>
+        <Search 
+          placeholder="Sök efter dokumentation, guider eller verktyg..."
+          tags={["Installation", "Felsökning", "Konfiguration", "Manualer"]}
+          onSearch={(query) => console.log('Sökning:', query)}
+        />
       </div>
-    </div>
+      
+      {/* Content Section with Tab Navigation */}
+      <div className="px-6 py-10">
+        {/* Tab Navigation */}
+        <TabNavigation 
+          tabs={[
+            { id: 'popular', label: 'Populärt innehåll' },
+            { id: 'categories', label: 'Kategorier' },
+            { id: 'updates', label: 'Uppdateringar' },
+          ]}
+          activeTab={activeSection}
+          onChange={setActiveSection}
+        />
+        
+        {/* Section Content */}
+        <div className="max-w-7xl mx-auto">
+          {renderTabContent()}
+        </div>
+      </div>
+    </>
   );
 }

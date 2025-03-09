@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { styled, useTheme as useMuiTheme } from '@mui/material/styles';
+import { styled, useTheme as useMuiTheme, Theme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
@@ -18,6 +18,8 @@ import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import Badge from '@mui/material/Badge';
 import Tooltip from '@mui/material/Tooltip';
+// Container används i PageContainer, inte här
+// import Container from '@mui/material/Container';
 
 // Icons
 import MenuIcon from '@mui/icons-material/Menu';
@@ -31,13 +33,15 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 
 // Import the app context
-import { useAppContext, NavigationItem } from './MuiAppProvider';
+import { useAppContext } from './MuiAppProvider';
+import { useTheme } from '@/styles/theme/theme-context';
 import { PageContainer } from './PageContainer';
+import { NavigationItem, NavigationItems } from '@/types/navigation';
 
 const drawerWidth = 240;
 
-// Styled components for the drawer
-const openedMixin = (theme: any) => ({
+// Styled components for the drawer - ändra any till Theme
+const openedMixin = (theme: Theme) => ({
   width: drawerWidth,
   transition: theme.transitions.create('width', {
     easing: theme.transitions.easing.sharp,
@@ -46,7 +50,7 @@ const openedMixin = (theme: any) => ({
   overflowX: 'hidden',
 });
 
-const closedMixin = (theme: any) => ({
+const closedMixin = (theme: Theme) => ({
   transition: theme.transitions.create('width', {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -89,22 +93,25 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-    boxSizing: 'border-box',
-    ...(open && {
-      ...openedMixin(theme),
-      '& .MuiDrawer-paper': openedMixin(theme),
-    }),
-    ...(!open && {
-      ...closedMixin(theme),
-      '& .MuiDrawer-paper': closedMixin(theme),
-    }),
+// Fixa Drawer-komponenten - vi måste definiera interfacet först
+interface DrawerProps {
+  open?: boolean;
+}
+
+const Drawer = styled(MuiDrawer)<DrawerProps>(({ theme, open }) => ({
+  width: drawerWidth,
+  flexShrink: 0,
+  whiteSpace: 'nowrap',
+  boxSizing: 'border-box',
+  ...(open && {
+    ...openedMixin(theme),
+    '& .MuiDrawer-paper': openedMixin(theme),
   }),
-);
+  ...(!open && {
+    ...closedMixin(theme),
+    '& .MuiDrawer-paper': closedMixin(theme),
+  }),
+}));
 
 // Props for the dashboard layout
 interface DashboardLayoutProps {
@@ -113,9 +120,13 @@ interface DashboardLayoutProps {
 }
 
 // Main dashboard layout
-export function DashboardLayout({ children, customHeader }: DashboardLayoutProps) {
+export function DashboardLayout({ 
+  children, 
+  customHeader
+}: DashboardLayoutProps) {
   const muiTheme = useMuiTheme();
-  const { navigation, router, darkMode, toggleTheme, themeClasses } = useAppContext();
+  const { toggleTheme, darkMode } = useTheme();
+  const { navigation, router } = useAppContext();
   const [open, setOpen] = React.useState(true);
   const [expandedItems, setExpandedItems] = React.useState<Record<string, boolean>>({});
 
@@ -196,8 +207,8 @@ export function DashboardLayout({ children, customHeader }: DashboardLayoutProps
           </ListItemButton>
         </ListItem>
 
-        {/* Render children if any */}
-        {hasChildren && (
+        {/* Render children if any - gör en null-check */}
+        {hasChildren && item.children && (
           <Collapse in={open && isExpanded} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               {item.children.map((child) => (

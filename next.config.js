@@ -3,7 +3,7 @@ const nextConfig = {
   // React strict mode för utveckling
   reactStrictMode: true,
   
-  // Transpilera MUI-paket
+  // Transpilera MUI-paket - viktigt för MUI v6
   transpilePackages: [
     '@mui/material',
     '@mui/system',

@@ -6,38 +6,23 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { useTheme } from '@/styles/theme/theme-context';
 import { getTheme } from '@/styles/theme/mui-theme';
 
-// Flytta typdefinitionen hit för att undvika cirkulära beroenden
-export interface NavigationItem {
-  segment: string;
-  title: string;
-  icon: React.ReactNode;
-  children?: NavigationItem[];
-}
-
-export interface NavigationDivider {
-  kind: 'divider';
-}
-
-export interface NavigationHeader {
-  kind: 'header';
-  title: string;
-}
-
-export type NavigationItems = (NavigationItem | NavigationDivider | NavigationHeader)[];
-
-// Router-liknande interface för att hålla koll på navigering
-export interface Router {
-  pathname: string;
-  navigate: (path: string) => void;
-}
+// Importera typerna från den nya typfilen
+import { 
+  NavigationItem, 
+  NavigationDivider, 
+  NavigationHeader, 
+  NavigationItems, 
+  Router 
+} from '@/types/navigation';
 
 // App context för att dela tillstånds- och navigeringsdata
+// Uppdatera detta
 interface AppContextValue {
   navigation: NavigationItems;
   router: Router;
   darkMode: boolean;
   toggleTheme: () => void;
-  themeClasses: any;
+  themeClasses: Record<string, string>; // Ändra any till Record<string, string>
 }
 
 // Skapa context
@@ -114,3 +99,6 @@ export function MuiAppProvider({ children, navigation }: MuiAppProviderProps) {
     </AppContext.Provider>
   );
 }
+
+// Reexportera typerna för att bibehålla bakåtkompatibilitet
+export type { NavigationItem, NavigationDivider, NavigationHeader, NavigationItems, Router };

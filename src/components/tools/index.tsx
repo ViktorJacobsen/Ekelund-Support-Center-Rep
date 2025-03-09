@@ -8,8 +8,10 @@ import MuiCameraScanner from './mui-camera-scanner';
 export const MeterForm = MuiMeterForm;
 export const CameraScanner = MuiCameraScanner;
 
-// För direkt import
-export default {
+// Namnge exportobjektet
+const components = {
   MeterForm: MuiMeterForm,
   CameraScanner: MuiCameraScanner
 };
+
+export default components;

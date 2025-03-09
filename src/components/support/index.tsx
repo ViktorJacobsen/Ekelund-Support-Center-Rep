@@ -8,8 +8,10 @@ import MuiTicketList from './mui-ticket-list';
 export const TicketForm = MuiTicketForm;
 export const TicketList = MuiTicketList;
 
-// För direkt import
-export default {
+// Namnge exportobjektet
+const components = {
   TicketForm: MuiTicketForm,
   TicketList: MuiTicketList
 };
+
+export default components;

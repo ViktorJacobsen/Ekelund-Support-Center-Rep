@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { MuiAppProvider } from '@/components/mui-core/MuiAppProvider';
-import MuiDashboardLayout from '@/components/mui-core/MuiDashboardLayout';
+// Ändra importen för att undvika konflikter med komponentnamnet
+import { DashboardLayout as DashboardLayoutComponent } from '@/components/mui-core/DashboardLayout';
 
 // Icons
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -12,10 +13,12 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import InstallDesktopIcon from '@mui/icons-material/InstallDesktop';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
-import HelpIcon from '@mui/icons-material/Help';
+// Ta bort oanvänd import
+// import HelpIcon from '@mui/icons-material/Help';
+import { NavigationItems } from '@/types/navigation';
 
 // Definiera navigationsstrukturen
-const NAVIGATION = [
+const NAVIGATION: NavigationItems = [
   {
     kind: 'header',
     title: 'Huvudmeny',
@@ -82,9 +85,10 @@ interface DashboardLayoutProps {
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <MuiAppProvider navigation={NAVIGATION}>
-      <MuiDashboardLayout navigation={NAVIGATION}>
+      {/* Skicka inte navigation som prop eftersom den inte finns i DashboardLayoutProps */}
+      <DashboardLayoutComponent>
         {children}
-      </MuiDashboardLayout>
+      </DashboardLayoutComponent>
     </MuiAppProvider>
   );
 }

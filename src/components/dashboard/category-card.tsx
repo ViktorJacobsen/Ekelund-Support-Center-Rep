@@ -27,7 +27,7 @@ const CategoryCard: React.FC<CategoryProps> = ({
         href={href}
         className={`${themeClasses.cardBg} border ${themeClasses.border} ${themeClasses.hoverBorder} rounded-xl p-6 transition-all duration-300 hover:shadow-lg hover:translate-y-[-5px] cursor-pointer group block`}
       >
-        <div className={`mb-5 w-14 h-14 rounded-full ${themeClasses.primary} flex items-center justify-center transition-transform duration-300 group-hover:scale-110`}>
+        <div className={`mb-5 w-14 h-14 rounded-full ${themeClasses.primaryGradient} flex items-center justify-center transition-transform duration-300 group-hover:scale-110`}>
           <svg className={`h-7 w-7 ${themeClasses.primaryFg} transition-colors duration-300`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={icon} />
           </svg>

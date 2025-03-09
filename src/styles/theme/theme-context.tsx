@@ -1,53 +1,55 @@
-// Förslag för uppdaterad theme-context.tsx
 'use client';
 
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { getThemeClasses } from './theme-variables';
 
+// Förenklade tema-variabler - bara Light 1 och Dark 1
 const lightThemeValues = {
-    '--background': '218 32% 100%',
-    '--foreground': '218 5% 10%',
-    '--card': '218 30% 90%',
-    '--card-foreground': '218 5% 15%',
-    '--popover': '218 32% 100%',
-    '--popover-foreground': '218 95% 10%',
-    '--primary': '218 81% 34%',
-    '--primary-foreground': '0 0% 100%',
-    '--secondary': '218 30% 90%',
-    '--secondary-foreground': '0 0% 0%',
-    '--muted': '180 30% 95%',
-    '--muted-foreground': '218 5% 40%',
-    '--accent': '180 30% 90%',
-    '--accent-foreground': '218 5% 15%',
-    '--destructive': '0 50% 50%',
-    '--destructive-foreground': '218 5% 100%',
-    '--border': '218 30% 82%',
-    '--divider': '213 4% 16%',
-    '--input': '218 30% 50%',
-    '--ring': '218 81% 34%',
+  '--gradient': 'linear-gradient(to top left,#25324b,#325169)',
+  '--background': '219 96.7% 98.44%',
+  '--foreground': '219 3.4000000000000004% 0.88%',
+  '--muted': '219 3.4000000000000004% 92.2%',
+  '--muted-foreground': '219 1.7000000000000002% 42.2%',
+  '--popover': '219 62.8% 92.2%',
+  '--popover-foreground': '219 3.4000000000000004% 1.1%',
+  '--card': '219 62.8% 92.2%',
+  '--card-foreground': '219 3.4000000000000004% 1.1%',
+  '--border': '219 8.4% 89.88%',
+  '--input': '219 8.4% 89.88%',
+  '--primary': '219 34% 22%',
+  '--primary-foreground': '219 0.68% 92.2%',
+  '--secondary': '219 1.7000000000000002% 96.1%',
+  '--secondary-foreground': '219 3.04% 12.2%',
+  '--accent': '219 1.7000000000000002% 96.1%',
+  '--accent-foreground': '219 3.04% 12.2%',
+  '--destructive': '0 84.2% 60.2%',
+  '--destructive-foreground': '0 0% 98%',
+  '--ring': '219 34% 22%',
+  '--divider': '204 9.9% 55.2%',
 };
 
 const darkThemeValues = {
-    '--background': '216 37% 8%',
-    '--foreground': '218 5% 100%',
-    '--card': '216 32% 12%',
-    '--card-foreground': '218 5% 100%',
-    '--popover': '216 32% 12%',
-    '--popover-foreground': '218 5% 100%',
-    '--primary': '218 81% 34%',
-    '--primary-foreground': '0 0% 100%',
-    '--secondary': '216 32% 12%',
-    '--secondary-foreground': '0 0% 100%',
-    '--muted': '187 79% 28%',
-    '--muted-foreground': '218 5% 65%',
-    '--accent': '187 79% 28%',
-    '--accent-foreground': '218 5% 95%',
-    '--destructive': '0 50% 50%',
-    '--destructive-foreground': '218 5% 100%',
-    '--border': '213 4% 27%',
-    '--divider': '213 4% 27%',
-    '--input': '218 30% 50%',
-    '--ring': '218 81% 34%',
+  '--gradient': 'linear-gradient(to top left,#0acffe,#495aff)',
+  '--background': '204 64.35% 4.16%',
+  '--foreground': '204 9.9% 97.6%',
+  '--muted': '204 49.5% 15.600000000000001%',
+  '--muted-foreground': '204 9.9% 55.2%',
+  '--popover': '204 45.2% 6.76%',
+  '--popover-foreground': '204 9.9% 97.6%',
+  '--card': '204 45.2% 6.76%',
+  '--card-foreground': '204 9.9% 97.6%',
+  '--border': '204 49.5% 15.600000000000001%',
+  '--input': '204 49.5% 15.600000000000001%',
+  '--primary': '204 99% 52%',
+  '--primary-foreground': '204 9.9% 5.2%',
+  '--secondary': '204 49.5% 15.600000000000001%',
+  '--secondary-foreground': '204 9.9% 97.6%',
+  '--accent': '204 49.5% 15.600000000000001%',
+  '--accent-foreground': '204 9.9% 97.6%',
+  '--destructive': '0 62.8% 30.6%',
+  '--destructive-foreground': '204 9.9% 97.6%',
+  '--ring': '204 99% 52%',
+  '--divider': '204 49.5% 15.600000000000001%',
 };
 
 type ThemeContextType = {
@@ -126,7 +128,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     if (darkMode) {
       root.classList.add('dark');
       
-      // För extra säkerhet, applicera alla CSS-variabler manuellt också
+      // Applicera alla CSS-variabler för Dark 1-temat
       Object.entries(darkThemeValues).forEach(([property, value]) => {
         root.style.setProperty(property, value);
       });
@@ -137,6 +139,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     } else {
       root.classList.remove('dark');
       
+      // Applicera alla CSS-variabler för Light 1-temat
       Object.entries(lightThemeValues).forEach(([property, value]) => {
         root.style.setProperty(property, value);
       });

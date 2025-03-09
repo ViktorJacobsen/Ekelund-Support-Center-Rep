@@ -50,7 +50,7 @@ export const getThemeClasses = () => {
     dividerColor: "bg-[hsl(var(--divider))]",
     
     // Primary button gradient
-    primaryGradient: "from-[hsl(var(--primary))] to-[hsl(var(--primary)_/_0.8)]",
+    primaryGradient: "bg-gradient",
 
     // Typografi
     heading: "font-[var(--font-display)] font-semibold tracking-tight", 

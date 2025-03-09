@@ -32,7 +32,7 @@ const QuickToolsCard: React.FC<QuickToolsCardProps> = ({
       <div className={`relative overflow-hidden group rounded-xl ${themeClasses.cardBg} backdrop-blur-sm border ${themeClasses.border} shadow-lg transition-all duration-300 hover:shadow-xl ${themeClasses.hoverBorder}`}>
         <div className="p-6">
           <div className="flex items-center space-x-3 mb-5">
-            <div className={`p-2 rounded-lg ${themeClasses.primary} transform transition-transform duration-300 group-hover:scale-110`}>
+            <div className={`p-2 rounded-lg ${themeClasses.primaryGradient} transform transition-transform duration-300 group-hover:scale-110`}>
               {icon}
             </div>
             <h2 className={`text-lg ${themeClasses.heading} ${themeClasses.text}`}>{title}</h2>

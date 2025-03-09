@@ -30,9 +30,9 @@ export default function Header() {
             <span className={`absolute top-1 right-1 w-2 h-2 rounded-full ${themeClasses.primary} animate-pulse`}></span>
           </button>
 
-          <div className={`h-8 border-r ${themeClasses.border}`}></div>
+          <div className={`h-8 border-r ${themeClasses.dividerBorder}`}></div>
           
-          {/* Theme Toggle Button */}
+          {/* Theme Toggle Button - nu använder Light 1 och Dark 1 temafärger */}
           <button 
             onClick={toggleTheme} 
             className={`p-2 rounded-full bg-gradient-to-br ${themeClasses.primaryGradient} ${themeClasses.primaryFg} transition-all duration-300 hover:scale-105`}

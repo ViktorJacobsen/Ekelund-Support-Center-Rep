@@ -77,7 +77,7 @@ export default function Sidebar({ expanded, onToggle }: SidebarProps) {
 
   return (
     <aside 
-      className={`fixed top-0 left-0 h-screen ${themeClasses.sidebarBg} rounded-br-xl z-50 flex flex-col overflow-hidden transition-all duration-300 ease-in-out ${
+      className={`fixed top-0 left-0 h-screen ${themeClasses.cardBg} rounded-br-xl z-50 flex flex-col overflow-hidden transition-all duration-300 ease-in-out ${
         expanded ? 'w-64' : 'w-16'
       }`}
     >
@@ -86,7 +86,7 @@ export default function Sidebar({ expanded, onToggle }: SidebarProps) {
         {expanded ? (
           <>
             <div className="flex flex-col items-center">
-              <div className={`rounded-lg ${themeClasses.primary} w-10 h-10 flex items-center justify-center mb-0`}>
+              <div className={`rounded-lg ${themeClasses.primaryGradient} w-10 h-10 flex items-center justify-center mb-0`}>
                 <span className={`${themeClasses.primaryFg} ${themeClasses.heading} text-lg`}>E</span>
               </div>
             </div>
@@ -103,7 +103,7 @@ export default function Sidebar({ expanded, onToggle }: SidebarProps) {
         ) : (
           <>
             <SidebarTooltip content="Ekelund Support Center">
-              <div className={`rounded-lg ${themeClasses.primary} w-10 h-10 flex items-center justify-center`}>
+              <div className={`rounded-lg ${themeClasses.primaryGradient} w-10 h-10 flex items-center justify-center`}>
                 <span className={`${themeClasses.primaryFg} ${themeClasses.heading} text-lg`}>E</span>
               </div>
             </SidebarTooltip>

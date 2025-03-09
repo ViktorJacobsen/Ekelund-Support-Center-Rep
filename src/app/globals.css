@@ -109,6 +109,10 @@
   scrollbar-width: none; /* Firefox */
 }
 
+.bg-gradient {
+  background: var(--gradient);
+}
+
 /* Animation utilities */
 @layer utilities {
   .animate-in {

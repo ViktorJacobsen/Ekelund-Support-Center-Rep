@@ -32,7 +32,7 @@ const GuideCard: React.FC<GuideCardProps> = ({
       <div className={`relative overflow-hidden group rounded-xl ${themeClasses.cardBg} backdrop-blur-sm border ${themeClasses.border} shadow-lg transition-all duration-300 hover:shadow-xl ${themeClasses.hoverBorder}`}>
         <div className="p-6">
           <div className="flex items-center space-x-3 mb-5">
-            <div className={`p-2 rounded-lg ${themeClasses.primary} transform transition-transform duration-300 group-hover:scale-110`}>
+            <div className={`p-2 rounded-lg ${themeClasses.primaryGradient} transform transition-transform duration-300 group-hover:scale-110`}>
               {icon}
             </div>
             <h2 className={`text-lg ${themeClasses.heading} ${themeClasses.text}`}>{title}</h2>
@@ -44,7 +44,7 @@ const GuideCard: React.FC<GuideCardProps> = ({
                 className={`flex items-center justify-between p-4 rounded-lg ${themeClasses.bg} border ${themeClasses.border} ${themeClasses.hoverBorder} group/item cursor-pointer transition-all duration-300 hover:translate-x-1`}
               >
                 <div className="flex items-center space-x-3">
-                  <div className={`w-8 h-8 flex items-center justify-center rounded-lg ${themeClasses.primary} ${themeClasses.primaryFg} font-semibold transition-transform duration-300 group-hover/item:scale-110`}>
+                  <div className={`w-8 h-8 flex items-center justify-center rounded-lg ${themeClasses.primaryGradient} ${themeClasses.primaryFg} font-semibold transition-transform duration-300 group-hover/item:scale-110`}>
                     {i + 1}
                   </div>
                   <div>

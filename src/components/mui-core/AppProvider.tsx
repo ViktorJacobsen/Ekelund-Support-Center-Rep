@@ -11,11 +11,11 @@ export type NavigationItem = {
   children?: NavigationItem[];
 };
 
-type NavigationDivider = {
+export type NavigationDivider = {
   kind: 'divider';
 };
 
-type NavigationHeader = {
+export type NavigationHeader = {
   kind: 'header';
   title: string;
 };

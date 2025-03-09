@@ -2,9 +2,10 @@
 
 import React from 'react';
 import { useTheme } from '@/styles/theme/theme-context';
-import { extendTheme, StyledEngineProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { AppProvider, Navigation } from '@/components/mui-core/AppProvider';
 import { DashboardLayout } from '@/components/mui-core/DashboardLayout';
+import Header from '@/components/layout/header/header';
 import CssBaseline from '@mui/material/CssBaseline';
 
 // Import icons from Material UI
@@ -122,9 +123,7 @@ const DashboardLayoutWrapper: React.FC<DashboardLayoutProps> = ({ children }) =>
   // Create a custom theme based on app's dark/light mode
   const theme = React.useMemo(
     () =>
-      extendTheme({
-        colorSchemes: { light: true, dark: true },
-        colorSchemeSelector: 'class',
+      createTheme({
         palette: {
           mode: darkMode ? 'dark' : 'light',
           primary: {
@@ -175,7 +174,7 @@ const DashboardLayoutWrapper: React.FC<DashboardLayoutProps> = ({ children }) =>
 
   return (
     <div className={`min-h-screen ${themeClasses.bodyText} ${themeClasses.bg} ${themeClasses.text}`}>
-      <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
         <AppProvider
           navigation={NAVIGATION}
           router={router}
@@ -183,11 +182,11 @@ const DashboardLayoutWrapper: React.FC<DashboardLayoutProps> = ({ children }) =>
           window={windowObj}
         >
           <CssBaseline />
-          <DashboardLayout>
+          <DashboardLayout customHeader={<Header />}>
             {children}
           </DashboardLayout>
         </AppProvider>
-      </StyledEngineProvider>
+      </ThemeProvider>
     </div>
   );
 };

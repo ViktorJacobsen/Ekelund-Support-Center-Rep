@@ -3,7 +3,7 @@
 import React from 'react';
 import { useTheme } from '@/styles/theme/theme-context';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { AppProvider } from '@/components/mui-core/AppProvider';
+import { AppProvider } from '@/components/mui-core/MuiAppProvider';
 import { DashboardLayout } from '@/components/mui-core/DashboardLayout';
 import Header from '@/components/layout/header/header';
 import CssBaseline from '@mui/material/CssBaseline';

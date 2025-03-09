@@ -31,7 +31,7 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 
 // Import the app context
-import { useAppContext, NavigationItem } from './AppProvider';
+import { useAppContext, NavigationItem } from './MuiAppProvider';
 import { PageContainer } from './PageContainer';
 
 const drawerWidth = 240;

@@ -3,6 +3,10 @@
 import React from 'react';
 import { useTheme } from '@/styles/theme/theme-context';
 import { useScrollHeader } from '@/hooks/use-scroll-header';
+import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
 
 export default function Header() {
   const { themeClasses, darkMode, toggleTheme } = useTheme();
@@ -33,22 +37,21 @@ export default function Header() {
 
           <div className={`h-8 border-r ${themeClasses.border}`}></div>
           
-          {/* Theme Toggle Button */}
-          <button 
-            onClick={toggleTheme} 
-            className={`p-2 rounded-full bg-gradient-to-br ${themeClasses.primaryGradient} ${themeClasses.primaryFg} transition-all duration-300 hover:scale-105`}
-            title={`Byt till ${darkMode ? "Light" : "Dark"}-tema`}
-          >
-            {darkMode ? (
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-              </svg>
-            ) : (
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-              </svg>
-            )}
-          </button>
+          {/* Theme Toggle Button with MUI icons */}
+          <Tooltip title={`Byt till ${darkMode ? "ljust" : "mörkt"} tema`}>
+            <IconButton 
+              onClick={toggleTheme} 
+              className={`p-2 rounded-full bg-gradient-to-br ${themeClasses.primaryGradient} ${themeClasses.primaryFg} transition-all duration-300 hover:scale-105`}
+              sx={{ color: 'inherit' }}
+              size="small"
+            >
+              {darkMode ? (
+                <LightModeIcon fontSize="small" />
+              ) : (
+                <DarkModeIcon fontSize="small" />
+              )}
+            </IconButton>
+          </Tooltip>
 
           <div className="flex items-center space-x-3">
             <div className={`w-9 h-9 rounded-full bg-gradient-to-br ${themeClasses.primaryGradient} flex items-center justify-center ${themeClasses.primaryFg} transition-transform duration-300 hover:scale-105 shadow-md`}>

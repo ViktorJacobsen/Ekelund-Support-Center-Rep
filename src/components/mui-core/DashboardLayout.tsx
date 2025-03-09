@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled, useTheme as useMuiTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
@@ -17,6 +17,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import Badge from '@mui/material/Badge';
+import Tooltip from '@mui/material/Tooltip';
 
 // Icons
 import MenuIcon from '@mui/icons-material/Menu';
@@ -26,6 +27,8 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import HelpIcon from '@mui/icons-material/Help';
 import LogoutIcon from '@mui/icons-material/Logout';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
 
 // Import the app context
 import { useAppContext, NavigationItem } from './AppProvider';
@@ -103,10 +106,16 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
+// Props for the dashboard layout
+interface DashboardLayoutProps {
+  children: React.ReactNode;
+  customHeader?: React.ReactNode;
+}
+
 // Main dashboard layout
-export function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const theme = useTheme();
-  const { navigation, router } = useAppContext();
+export function DashboardLayout({ children, customHeader }: DashboardLayoutProps) {
+  const muiTheme = useMuiTheme();
+  const { navigation, router, darkMode, toggleTheme, themeClasses } = useAppContext();
   const [open, setOpen] = React.useState(true);
   const [expandedItems, setExpandedItems] = React.useState<Record<string, boolean>>({});
 
@@ -154,6 +163,16 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               minHeight: 48,
               justifyContent: open ? 'initial' : 'center',
               px: 2.5,
+              '&.Mui-selected': {
+                backgroundColor: darkMode 
+                  ? 'rgba(100, 181, 246, 0.1)' // Mörkare tema använder blåtonad bakgrund  
+                  : 'rgba(30, 69, 117, 0.1)', // Ljusare tema använder blåtonad bakgrund
+              },
+              '&.Mui-selected:hover': {
+                backgroundColor: darkMode 
+                  ? 'rgba(100, 181, 246, 0.2)'  
+                  : 'rgba(30, 69, 117, 0.2)',
+              },
             }}
           >
             <ListItemIcon
@@ -161,7 +180,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 minWidth: 0,
                 mr: open ? 3 : 'auto',
                 justifyContent: 'center',
-                color: isActive ? theme.palette.primary.main : undefined,
+                color: isActive ? muiTheme.palette.primary.main : undefined,
               }}
             >
               {item.icon}
@@ -190,6 +209,16 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                     pl: 4,
                     py: 0.5,
                     minHeight: 40,
+                    '&.Mui-selected': {
+                      backgroundColor: darkMode 
+                        ? 'rgba(100, 181, 246, 0.1)'  
+                        : 'rgba(30, 69, 117, 0.1)',
+                    },
+                    '&.Mui-selected:hover': {
+                      backgroundColor: darkMode 
+                        ? 'rgba(100, 181, 246, 0.2)'  
+                        : 'rgba(30, 69, 117, 0.2)',
+                    },
                   }}
                 >
                   <ListItemIcon
@@ -198,8 +227,8 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                       mr: 3,
                       justifyContent: 'center',
                       color: isItemActive(`${item.segment}/${child.segment}`) 
-                        ? theme.palette.primary.main 
-                        : theme.palette.text.secondary,
+                        ? muiTheme.palette.primary.main 
+                        : undefined,
                     }}
                   >
                     {child.icon}
@@ -241,7 +270,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               ml: open ? 2 : 'auto',
               fontSize: '0.75rem',
               fontWeight: 'bold',
-              color: theme.palette.text.secondary,
+              color: muiTheme.palette.text.secondary,
               display: open ? 'block' : 'none',
             }}
           >
@@ -257,47 +286,77 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <AppBar position="fixed" open={open} elevation={0} color="inherit">
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: 5,
-              ...(open && { display: 'none' }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, fontWeight: 600 }}
-          >
-            Ekelund Support Center
-          </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="primary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <Avatar 
-            sx={{ 
-              ml: 2, 
-              bgcolor: theme.palette.primary.main,
-              width: 36,
-              height: 36,
-              fontSize: '0.875rem',
-              fontWeight: 600,
-            }}
-          >
-            VJ
-          </Avatar>
-        </Toolbar>
-      </AppBar>
+      {customHeader ? (
+        <Box sx={{ 
+          position: 'fixed', 
+          top: 0, 
+          left: 0,
+          right: 0,
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          marginLeft: open ? drawerWidth : 0,
+          width: open ? `calc(100% - ${drawerWidth}px)` : '100%',
+          transition: muiTheme.transitions.create(['width', 'margin'], {
+            easing: muiTheme.transitions.easing.sharp,
+            duration: muiTheme.transitions.duration.enteringScreen,
+          }),
+        }}>
+          {customHeader}
+        </Box>
+      ) : (
+        <AppBar position="fixed" open={open} elevation={0} color="inherit">
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{
+                marginRight: 5,
+                ...(open && { display: 'none' }),
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1, fontWeight: 600 }}
+            >
+              Ekelund Support Center
+            </Typography>
+            <IconButton color="inherit">
+              <Badge badgeContent={4} color="primary">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+            
+            {/* Tema-switchen */}
+            <Tooltip title={`Byt till ${darkMode ? "ljust" : "mörkt"} tema`}>
+              <IconButton 
+                onClick={toggleTheme} 
+                color="inherit"
+                sx={{ mx: 1 }}
+              >
+                {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
+              </IconButton>
+            </Tooltip>
+            
+            <Avatar 
+              sx={{ 
+                ml: 2, 
+                bgcolor: muiTheme.palette.primary.main,
+                width: 36,
+                height: 36,
+                fontSize: '0.875rem',
+                fontWeight: 600,
+              }}
+            >
+              VJ
+            </Avatar>
+          </Toolbar>
+        </AppBar>
+      )}
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <Box sx={{ 
@@ -317,7 +376,9 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                   width: 40,
                   height: 40,
                   borderRadius: 1.5,
-                  background: 'linear-gradient(135deg, #1e4575, #3671b9)',
+                  background: darkMode 
+                    ? 'linear-gradient(135deg, #1565C0, #64B5F6)' // Mörkare blå gradient
+                    : 'linear-gradient(135deg, #1e4575, #3671b9)', // Ljusare blå gradient
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -378,7 +439,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                   minWidth: 0,
                   mr: open ? 3 : 'auto',
                   justifyContent: 'center',
-                  color: theme.palette.error.main,
+                  color: muiTheme.palette.error.main,
                 }}
               >
                 <LogoutIcon />
@@ -387,15 +448,21 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 primary="Logga ut" 
                 sx={{ 
                   opacity: open ? 1 : 0,
-                  color: theme.palette.error.main,
+                  color: muiTheme.palette.error.main,
                 }} 
               />
             </ListItemButton>
           </ListItem>
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
+      <Box component="main" sx={{ 
+        flexGrow: 1, 
+        p: 3,
+        // Lägg till marginalen beroende på om du använder custom header
+        mt: customHeader ? { xs: 7, sm: 8 } : 0 
+      }}>
+        {!customHeader && <DrawerHeader />}
+        {customHeader && <Box sx={{ height: { xs: 56, sm: 64 } }} />} {/* Ersätt DrawerHeader med utrymme för custom header */}
         <PageContainer>
           {children}
         </PageContainer>

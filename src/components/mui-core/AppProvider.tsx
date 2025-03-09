@@ -1,7 +1,8 @@
 'use client';
 
 import * as React from 'react';
-import { ThemeProvider, Theme } from '@mui/material/styles';
+import { ThemeProvider as MuiThemeProvider, Theme } from '@mui/material/styles';
+import { useTheme } from '@/styles/theme/theme-context';
 
 // Define the Navigation type to match the template
 export type NavigationItem = {
@@ -43,6 +44,9 @@ interface AppContextValue {
   navigation: Navigation;
   router: Router;
   window?: Window;
+  themeClasses: ReturnType<typeof useTheme>['themeClasses'];
+  darkMode: boolean;
+  toggleTheme: () => void;
 }
 
 const AppContext = React.createContext<AppContextValue | null>(null);
@@ -63,18 +67,24 @@ export function AppProvider({
   theme,
   window,
 }: AppProviderProps) {
+  // Hämta temainformation från ditt huvudtema-system
+  const { themeClasses, darkMode, toggleTheme } = useTheme();
+
   const contextValue = React.useMemo(
     () => ({
       navigation,
       router,
       window,
+      themeClasses,
+      darkMode,
+      toggleTheme
     }),
-    [navigation, router, window]
+    [navigation, router, window, themeClasses, darkMode, toggleTheme]
   );
 
   return (
     <AppContext.Provider value={contextValue}>
-      <ThemeProvider theme={theme}>{children}</ThemeProvider>
+      <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>
     </AppContext.Provider>
   );
 }

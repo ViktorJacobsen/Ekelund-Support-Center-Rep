@@ -2,21 +2,17 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/lib/auth/auth-context';
-import { Container, Box, Typography, Tab, Tabs, Grid, Paper, Card, CardContent, CardActionArea, Button, Chip, CircularProgress, Avatar, Divider } from '@mui/material';
+import { Container, Box, Typography, Tab, Tabs, Grid, Paper, Card, CardActionArea, Button, Chip, Avatar } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 
 // Icons
-import DashboardIcon from '@mui/icons-material/Dashboard';
 import DescriptionIcon from '@mui/icons-material/Description';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import BuildIcon from '@mui/icons-material/Build';
 import ArticleIcon from '@mui/icons-material/Article';
 import SearchIcon from '@mui/icons-material/Search';
-import AutorenewIcon from '@mui/icons-material/Autorenew';
-import PersonIcon from '@mui/icons-material/Person';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import PersonIcon from '@mui/icons-material/Person';
 
 // Styled components för att skapa konsekvent styling
 const GradientCircle = styled(Box)(({ theme }) => ({
@@ -53,6 +49,7 @@ interface CategoryItem {
   title: string;
   count: number;
   href: string;
+  icon?: React.ReactNode;
 }
 
 interface ActivityItem {
@@ -84,21 +81,37 @@ function TabPanel(props: {
   );
 }
 
-// MUI Dashboard-komponent
+// Förenklad direktautentiseringskontroll
+function useDirectAuth() {
+  // Kolla localStorage direkt istället för att använda auth-hooken
+  const checkAuth = () => {
+    try {
+      // Om vi kör på klientsidan, kolla localStorage
+      if (typeof window !== 'undefined') {
+        const isTestUserLoggedIn = localStorage.getItem('test-admin-auth') === 'true';
+        // Eller några andra användardata du lagrar
+        return isTestUserLoggedIn;
+      }
+      return false;
+    } catch (e) {
+      console.error("Auth check error:", e);
+      return false;
+    }
+  };
+  
+  return { isAuthenticated: checkAuth() };
+}
+
+// MUI Dashboard-komponent - Helt utan auth-hook, använder direktkoll istället
 export default function MuiDashboard() {
   const theme = useTheme();
-  const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
+  
+  // Enkel direkt autentkoll utan hook
+  const { isAuthenticated } = useDirectAuth();
   
   const [activeTab, setActiveTab] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
-
-  // Omdirigera om användaren inte är inloggad
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      router.push('/login');
-    }
-  }, [isAuthenticated, isLoading, router]);
 
   // Hantera tabbyte
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -127,10 +140,30 @@ export default function MuiDashboard() {
   ];
 
   const categories: CategoryItem[] = [
-    { title: 'Installationsguider', count: 24, href: '/dokumentation/installationsguider' },
-    { title: 'Tekniska manualer', count: 35, href: '/dokumentation/manualer' },
-    { title: 'Felsökning', count: 18, href: '/dokumentation/felsökning' },
-    { title: 'Produktdokument', count: 42, href: '/dokumentation/produktdokument' },
+    { 
+      title: 'Installationsguider', 
+      count: 24, 
+      href: '/dokumentation/installationsguider',
+      icon: <DescriptionIcon />
+    },
+    { 
+      title: 'Tekniska manualer', 
+      count: 35, 
+      href: '/dokumentation/manualer',
+      icon: <MenuBookIcon />
+    },
+    { 
+      title: 'Felsökning', 
+      count: 18, 
+      href: '/dokumentation/felsökning',
+      icon: <BuildIcon />
+    },
+    { 
+      title: 'Produktdokument', 
+      count: 42, 
+      href: '/dokumentation/produktdokument',
+      icon: <ArticleIcon />
+    },
   ];
 
   const recentActivities: ActivityItem[] = [
@@ -150,21 +183,15 @@ export default function MuiDashboard() {
     },
   ];
 
-  // Visar laddningsindikator
-  if (isLoading) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
+  // Direktkontroll: Om inte autentiserad, omdirigera omedelbart
+  useEffect(() => {
+    if (!isAuthenticated) {
+      console.log("Not authenticated, redirecting to login");
+      router.push('/login');
+    }
+  }, [isAuthenticated, router]);
 
-  // Om användaren inte är autentiserad, visa ingenting
-  if (!isAuthenticated) {
-    return null;
-  }
-
-  // Huvudinnehållet
+  // Alltid visa innehåll - om inte autentiserad hanteras det av useEffect ovan
   return (
     <>
       {/* Hero section with search */}
@@ -293,6 +320,7 @@ export default function MuiDashboard() {
                             boxShadow: 1
                           }
                         }}
+                        onClick={() => router.push('/dokumentation')}
                       >
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
                           <Typography variant="body2" fontWeight="medium">
@@ -314,6 +342,7 @@ export default function MuiDashboard() {
                   <Button 
                     color="primary" 
                     sx={{ width: '100%', textTransform: 'none' }}
+                    onClick={() => router.push('/dokumentation')}
                   >
                     Visa alla dokument
                   </Button>
@@ -370,6 +399,7 @@ export default function MuiDashboard() {
                             boxShadow: 1
                           }
                         }}
+                        onClick={() => router.push('/dokumentation')}
                       >
                         <Typography variant="body2" fontWeight="medium" sx={{ mb: 0.5 }}>
                           {guide.title}
@@ -389,6 +419,7 @@ export default function MuiDashboard() {
                   <Button 
                     color="primary" 
                     sx={{ width: '100%', textTransform: 'none' }}
+                    onClick={() => router.push('/dokumentation')}
                   >
                     Visa alla guider
                   </Button>
@@ -467,6 +498,7 @@ export default function MuiDashboard() {
                   <Button 
                     color="primary" 
                     sx={{ width: '100%', textTransform: 'none' }}
+                    onClick={() => router.push('/verktyg')}
                   >
                     Visa alla verktyg
                   </Button>
@@ -513,10 +545,7 @@ export default function MuiDashboard() {
                       }
                     }}
                   >
-                    {index === 0 ? <DescriptionIcon /> : 
-                     index === 1 ? <MenuBookIcon /> : 
-                     index === 2 ? <BuildIcon /> : 
-                     <ArticleIcon />}
+                    {category.icon}
                   </Box>
                   
                   <Typography variant="h6" component="h3" align="center" gutterBottom>

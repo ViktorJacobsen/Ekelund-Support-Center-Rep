@@ -5,7 +5,7 @@ import { useMUI } from '@/lib/mui-config';
 import dynamic from 'next/dynamic';
 
 // Dynamiskt importera rätt sida baserat på konfigurationen
-const OldDashboardPage = dynamic(() => import('./components/original-dashboard'), { 
+const OldDashboardPage = dynamic(() => import('./page.bak'), { 
   ssr: false,
   loading: () => <div>Laddar...</div>
 });

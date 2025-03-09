@@ -1,7 +1,7 @@
 import './globals.css';
 import { Inter, Raleway, JetBrains_Mono } from 'next/font/google';
 import { MuiThemeProvider } from '@/styles/theme/MuiThemeProvider';
-import { ThemeScript } from '@/styles/theme/theme-context';
+import { ThemeProvider, ThemeScript } from '@/styles/theme/theme-context';
 import { Toaster } from '@/components/ui/sonner';
 
 // Konfigurera typsnitt med rätt undergrupper
@@ -40,10 +40,12 @@ export default function RootLayout({
         <ThemeScript />
       </head>
       <body>
-        <MuiThemeProvider>
-          {children}
-          <Toaster />
-        </MuiThemeProvider>
+        <ThemeProvider>
+          <MuiThemeProvider>
+            {children}
+            <Toaster />
+          </MuiThemeProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

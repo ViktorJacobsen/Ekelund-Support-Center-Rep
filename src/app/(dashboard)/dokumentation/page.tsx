@@ -18,8 +18,5 @@ const MuiPage = dynamic(() => import('./mui-page'), {
 
 export default function DokumentationPage() {
   // Använd MUI-versionen eller den ursprungliga baserat på konfiguration
-  // Temporärt: Använd bara original eftersom MUI-versionen inte finns än
-  return useMUI ? <OriginalPage /> : <OriginalPage />;
-  // När MUI-versionen är klar:
-  // return useMUI ? <MuiPage /> : <OriginalPage />;
+  return useMUI ? <MuiPage /> : <OriginalPage />;
 }

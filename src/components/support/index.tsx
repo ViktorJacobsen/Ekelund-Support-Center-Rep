@@ -1,11 +1,15 @@
 'use client';
 
-// Direkt export av MUI komponenter
-export { default as TicketForm } from './mui-ticket-form';
-export { default as TicketList } from './mui-ticket-list';
+// Importera MUI komponenter
+import MuiTicketForm from './mui-ticket-form';
+import MuiTicketList from './mui-ticket-list';
+
+// Exportera komponenter
+export const TicketForm = MuiTicketForm;
+export const TicketList = MuiTicketList;
 
 // För direkt import
 export default {
-  TicketForm,
-  TicketList
+  TicketForm: MuiTicketForm,
+  TicketList: MuiTicketList
 };

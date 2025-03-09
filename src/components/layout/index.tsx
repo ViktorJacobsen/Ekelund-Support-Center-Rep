@@ -1,20 +1,23 @@
 'use client';
 
-// Direkt export av MUI komponenter
-export { default as Header } from './header/mui-header';
-export { default as Search } from './header/mui-search';
-export { default as TabNavigation } from './mui-tab-navigation';
+// Importera MUI komponenter
+import MuiHeader from './header/mui-header';
+import MuiSearch from './header/mui-search';
+import MuiTabNavigation from './mui-tab-navigation';
+import MuiSidebar from '@/components/mui-core/MuiDashboardLayout';
 
-// MUI komponenter för sidebar och drawer
-import { default as MuiSidebar } from '@/components/mui-core/MuiDashboardLayout';
+// Exportera komponenter för användning i andra filer
+export const Header = MuiHeader;
+export const Search = MuiSearch;
+export const TabNavigation = MuiTabNavigation;
 export const Sidebar = MuiSidebar;
 export const SidebarDrawer = MuiSidebar;
 
 // För direkt import
 export default {
-  Header,
-  Search,
-  Sidebar,
-  SidebarDrawer,
-  TabNavigation
+  Header: MuiHeader,
+  Search: MuiSearch,
+  TabNavigation: MuiTabNavigation,
+  Sidebar: MuiSidebar,
+  SidebarDrawer: MuiSidebar
 };

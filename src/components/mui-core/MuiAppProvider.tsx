@@ -5,7 +5,25 @@ import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { useTheme } from '@/styles/theme/theme-context';
 import { getTheme } from '@/styles/theme/mui-theme';
-import { NavigationItems } from './MuiDashboardLayout';
+
+// Flytta typdefinitionen hit för att undvika cirkulära beroenden
+export interface NavigationItem {
+  segment: string;
+  title: string;
+  icon: React.ReactNode;
+  children?: NavigationItem[];
+}
+
+export interface NavigationDivider {
+  kind: 'divider';
+}
+
+export interface NavigationHeader {
+  kind: 'header';
+  title: string;
+}
+
+export type NavigationItems = (NavigationItem | NavigationDivider | NavigationHeader)[];
 
 // Router-liknande interface för att hålla koll på navigering
 export interface Router {
@@ -19,6 +37,7 @@ interface AppContextValue {
   router: Router;
   darkMode: boolean;
   toggleTheme: () => void;
+  themeClasses: any;
 }
 
 // Skapa context
@@ -71,19 +90,20 @@ function useMinimalRouter(): Router {
 
 // Huvudkomponent - MuiAppProvider
 export function MuiAppProvider({ children, navigation }: MuiAppProviderProps) {
-  const { darkMode, toggleTheme } = useTheme();
+  const { darkMode, toggleTheme, themeClasses } = useTheme();
   const router = useMinimalRouter();
   
-  // Skapa theme baserat på dark mode
-  const muiTheme = useMemo(() => getTheme(darkMode), [darkMode]);
+  // Skapa rätt MUI-tema baserat på darkMode
+  const muiTheme = React.useMemo(() => getTheme(darkMode), [darkMode]);
   
   // Skapa context-värdet
   const contextValue = useMemo(() => ({
     navigation,
     router,
     darkMode,
-    toggleTheme
-  }), [navigation, router, darkMode, toggleTheme]);
+    toggleTheme,
+    themeClasses
+  }), [navigation, router, darkMode, toggleTheme, themeClasses]);
   
   return (
     <AppContext.Provider value={contextValue}>

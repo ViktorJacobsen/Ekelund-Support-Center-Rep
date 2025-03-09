@@ -3,6 +3,16 @@ const nextConfig = {
   // React strict mode för utveckling
   reactStrictMode: true,
   
+  // Transpilera MUI-paket
+  transpilePackages: [
+    '@mui/material',
+    '@mui/system',
+    '@mui/icons-material',
+    '@mui/lab',
+    '@emotion/react',
+    '@emotion/styled'
+  ],
+  
   // Konfiguration för bilder
   images: {
     domains: [

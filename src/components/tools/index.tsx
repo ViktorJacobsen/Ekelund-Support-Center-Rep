@@ -1,11 +1,15 @@
 'use client';
 
-// Direkt export av MUI komponenter
-export { default as MeterForm } from './mui-meter-form';
-export { default as CameraScanner } from './mui-camera-scanner';
+// Importera MUI komponenter
+import MuiMeterForm from './mui-meter-form';
+import MuiCameraScanner from './mui-camera-scanner';
+
+// Exportera komponenter
+export const MeterForm = MuiMeterForm;
+export const CameraScanner = MuiCameraScanner;
 
 // För direkt import
 export default {
-  MeterForm,
-  CameraScanner
+  MeterForm: MuiMeterForm,
+  CameraScanner: MuiCameraScanner
 };

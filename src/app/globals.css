@@ -1,104 +1,7 @@
-/* Import Google Fonts först */
+/* Import Google Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap");
-
-/* Sedan Tailwind */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* CSS custom properties for theme */
-@layer base {
-  :root {
-    /* Colors */
-    --background: 218 32% 100%;
-    --foreground: 218 5% 10%;
-    --card: 218 32% 100%;
-    --card-foreground: 218 5% 15%;
-    --popover: 218 32% 100%;
-    --popover-foreground: 218 95% 10%;
-    --primary: 218 81% 34%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 218 30% 90%;
-    --secondary-foreground: 0 0% 0%;
-    --muted: 180 30% 95%;
-    --muted-foreground: 218 5% 40%;
-    --accent: 180 30% 90%;
-    --accent-foreground: 218 5% 15%;
-    --destructive: 0 50% 50%;
-    --destructive-foreground: 218 5% 100%;
-    --border: 218 30% 82%;
-    --divider: 213 4% 16%;
-    --input: 218 30% 50%;
-    --ring: 218 81% 34%;
-
-    /* Border Radius */
-    --radius: 0.75rem;
-
-    /* Typography */
-    --font-display: "Raleway", sans-serif;
-    --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
-    --font-mono: "JetBrains Mono", monospace;
-
-    /* Font Weights */
-    --font-weight-light: 300;
-    --font-weight-normal: 400;
-    --font-weight-medium: 500;
-    --font-weight-semibold: 600;
-    --font-weight-bold: 700;
-    --font-weight-extrabold: 800;
-
-    /* Letter Spacing */
-    --letter-spacing-tighter: -0.05em;
-    --letter-spacing-tight: -0.025em;
-    --letter-spacing-normal: 0em;
-    --letter-spacing-wide: 0.025em;
-    --letter-spacing-wider: 0.05em;
-  }
-
-  html.dark {
-    --background: 216 37% 8%;
-    --foreground: 218 5% 100%;
-    --card: 216 32% 12%;
-    --card-foreground: 218 5% 100%;
-    --popover: 216 32% 12%;
-    --popover-foreground: 218 5% 100%;
-    --primary: 218 81% 34%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 216 32% 12%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 187 79% 28%;
-    --muted-foreground: 218 5% 65%;
-    --accent: 187 79% 28%;
-    --accent-foreground: 218 5% 95%;
-    --destructive: 0 50% 50%;
-    --destructive-foreground: 218 5% 100%;
-    --border: 213 4% 27%;
-    --divider: 213 4% 27%;
-    --input: 218 30% 50%;
-    --ring: 218 81% 34%;
-  }
-
-  body {
-    font-family: var(--font-sans);
-    @apply bg-[hsl(var(--background))] text-[hsl(var(--foreground))];
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: var(--font-display);
-  }
-
-  code,
-  pre {
-    font-family: var(--font-mono);
-  }
-}
 
 /* Utility classes */
 .no-scrollbar::-webkit-scrollbar {
@@ -106,44 +9,38 @@
 }
 
 .no-scrollbar {
-  -ms-overflow-style: none; /* IE och Edge */
+  -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
 
-.bg-gradient {
-  background: var(--gradient);
+/* Animation utilities */
+.animate-in {
+  animation-delay: 0ms;
+  animation-fill-mode: both;
 }
 
-/* Animation utilities */
-@layer utilities {
-  .animate-in {
-    animation-delay: 0ms;
-    animation-fill-mode: both;
-  }
+.fade-in-0 {
+  animation: fade-in 0.3s ease-out;
+}
 
-  .fade-in-0 {
-    animation: fade-in 0.3s ease-out;
-  }
+.fade-in {
+  animation: fade-in 0.5s ease-out;
+}
 
-  .fade-in {
-    animation: fade-in 0.5s ease-out;
-  }
+.slide-in-from-right {
+  animation: slide-in-from-right 0.3s ease-out;
+}
 
-  .slide-in-from-right {
-    animation: slide-in-from-right 0.3s ease-out;
-  }
+.slide-in-from-left {
+  animation: slide-in-from-left 0.3s ease-out;
+}
 
-  .slide-in-from-left {
-    animation: slide-in-from-left 0.3s ease-out;
-  }
+.slide-in-from-top {
+  animation: slide-in-from-top 0.3s ease-out;
+}
 
-  .slide-in-from-top {
-    animation: slide-in-from-top 0.3s ease-out;
-  }
-
-  .slide-in-from-bottom {
-    animation: slide-in-from-bottom 0.3s ease-out;
-  }
+.slide-in-from-bottom {
+  animation: slide-in-from-bottom 0.3s ease-out;
 }
 
 /* Keyframes for animations */

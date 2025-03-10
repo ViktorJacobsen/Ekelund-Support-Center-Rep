@@ -32,7 +32,6 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 
 // Import the app context
 import { useAppContext } from './MuiAppProvider';
-import { useTheme } from '@/styles/theme/theme-context';
 import { PageContainer } from './PageContainer';
 import { NavigationItem, NavigationItems } from '@/types/navigation';
 
@@ -60,7 +59,8 @@ export function DashboardLayout({
   customHeader
 }: DashboardLayoutProps) {
   const muiTheme = useMuiTheme();
-  const { toggleTheme, darkMode } = useTheme();
+  const darkMode = muiTheme.palette.mode === 'dark';
+  const { toggleTheme } = useAppContext();
   const { navigation, router } = useAppContext();
   const [open, setOpen] = React.useState(true);
   const [expandedItems, setExpandedItems] = React.useState<Record<string, boolean>>({});
@@ -132,14 +132,10 @@ export function DashboardLayout({
               justifyContent: open ? 'initial' : 'center',
               px: 2.5,
               '&.Mui-selected': {
-                backgroundColor: darkMode 
-                  ? 'rgba(100, 181, 246, 0.1)' // Mörkare tema använder blåtonad bakgrund  
-                  : 'rgba(30, 69, 117, 0.1)', // Ljusare tema använder blåtonad bakgrund
+                backgroundColor: 'rgba(65, 145, 255, 0.15)', // Bright blue with opacity for dark mode
               },
               '&.Mui-selected:hover': {
-                backgroundColor: darkMode 
-                  ? 'rgba(100, 181, 246, 0.2)'  
-                  : 'rgba(30, 69, 117, 0.2)',
+                backgroundColor: 'rgba(65, 145, 255, 0.25)',
               },
             }}
           >
@@ -178,14 +174,10 @@ export function DashboardLayout({
                     py: 0.5,
                     minHeight: 40,
                     '&.Mui-selected': {
-                      backgroundColor: darkMode 
-                        ? 'rgba(100, 181, 246, 0.1)'  
-                        : 'rgba(30, 69, 117, 0.1)',
+                      backgroundColor: 'rgba(65, 145, 255, 0.15)', // Bright blue with opacity for dark mode
                     },
                     '&.Mui-selected:hover': {
-                      backgroundColor: darkMode 
-                        ? 'rgba(100, 181, 246, 0.2)'  
-                        : 'rgba(30, 69, 117, 0.2)',
+                      backgroundColor: 'rgba(65, 145, 255, 0.25)',
                     },
                   }}
                 >

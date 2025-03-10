@@ -62,57 +62,57 @@ export const lightPalette: PaletteOptions = {
 export const darkPalette: PaletteOptions = {
   mode: 'dark',
   primary: {
-    main: 'hsl(204, 99%, 52%)', // --primary
-    light: 'hsl(204, 99%, 62%)',
-    dark: 'hsl(204, 99%, 42%)',
-    contrastText: 'hsl(204, 9.9%, 5.2%)', // --primary-foreground
+    main: 'hsl(214, 100%, 63%)',     // Bright blue
+    light: 'hsl(214, 100%, 73%)',
+    dark: 'hsl(214, 100%, 53%)',
+    contrastText: 'hsl(0, 0%, 100%)',
   },
   secondary: {
-    main: 'hsl(204, 49.5%, 15.6%)', // --secondary
-    light: 'hsl(204, 49.5%, 25%)',
-    dark: 'hsl(204, 49.5%, 10%)',
-    contrastText: 'hsl(204, 9.9%, 97.6%)', // --secondary-foreground
+    main: 'hsl(222, 25%, 12%)',
+    light: 'hsl(222, 25%, 22%)',
+    dark: 'hsl(222, 25%, 7%)',
+    contrastText: 'hsl(0, 0%, 100%)', 
   },
   error: {
-    main: 'hsl(0, 62.8%, 30.6%)', // --destructive
-    light: 'hsl(0, 62.8%, 40.6%)',
-    dark: 'hsl(0, 62.8%, 25%)',
-    contrastText: 'hsl(204, 9.9%, 97.6%)', // --destructive-foreground
+    main: 'hsl(0, 62%, 50%)',
+    light: 'hsl(0, 62%, 60%)',
+    dark: 'hsl(0, 62%, 40%)',
+    contrastText: 'hsl(0, 0%, 100%)',
   },
   warning: {
     main: 'hsl(38, 92%, 50%)',
     light: 'hsl(38, 92%, 60%)',
     dark: 'hsl(38, 92%, 40%)',
-    contrastText: 'hsl(204, 9.9%, 10%)',
+    contrastText: 'hsl(0, 0%, 100%)',
   },
   info: {
-    main: 'hsl(220, 70%, 60%)',
-    light: 'hsl(220, 70%, 70%)',
-    dark: 'hsl(220, 70%, 50%)',
-    contrastText: 'hsl(204, 9.9%, 10%)',
+    main: 'hsl(200, 70%, 60%)',
+    light: 'hsl(200, 70%, 70%)',
+    dark: 'hsl(200, 70%, 50%)',
+    contrastText: 'hsl(0, 0%, 100%)',
   },
   success: {
     main: 'hsl(142, 71%, 45%)',
     light: 'hsl(142, 71%, 55%)',
     dark: 'hsl(142, 71%, 35%)',
-    contrastText: 'hsl(204, 9.9%, 10%)',
+    contrastText: 'hsl(0, 0%, 100%)',
   },
   background: {
-    default: 'hsl(204, 64.35%, 4.16%)', // --background
-    paper: 'hsl(204, 45.2%, 6.76%)', // --card
+    default: 'hsl(222, 25%, 7%)',     // Very dark blue-black
+    paper: 'hsl(222, 25%, 10%)',      // Slightly lighter card backgrounds
   },
   text: {
-    primary: 'hsl(204, 9.9%, 97.6%)', // --foreground
-    secondary: 'hsl(204, 9.9%, 55.2%)', // --muted-foreground
-    disabled: 'hsl(204, 9.9%, 40%)',
+    primary: 'hsl(220, 10%, 98%)',    // Almost white
+    secondary: 'hsl(220, 10%, 75%)',  // Light gray
+    disabled: 'hsl(220, 10%, 45%)',
   },
-  divider: 'hsl(204, 49.5%, 15.6%)', // --border
+  divider: 'hsl(223, 20%, 15%)',
   action: {
-    active: 'hsl(204, 99%, 52%)',
-    hover: 'hsl(204, 49.5%, 10%)',
-    selected: 'hsl(204, 49.5%, 12%)',
-    disabled: 'hsl(204, 9.9%, 30%)',
-    disabledBackground: 'hsl(204, 9.9%, 15%)',
+    active: 'hsl(214, 100%, 63%)',
+    hover: 'hsl(222, 30%, 12%)',
+    selected: 'hsl(223, 30%, 15%)',
+    disabled: 'hsl(220, 10%, 30%)',
+    disabledBackground: 'hsl(220, 10%, 12%)',
   },
 };
 

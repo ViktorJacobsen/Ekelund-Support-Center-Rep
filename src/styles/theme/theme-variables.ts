@@ -49,8 +49,8 @@ export const getThemeClasses = () => {
     // Other
     dividerColor: "bg-[hsl(var(--divider))]",
     
-    // Primary button gradient
-    primaryGradient: "bg-gradient",
+    // Primary button gradient - update to match screenshot gradient
+    primaryGradient: "bg-gradient-to-r from-[hsl(215,80%,55%)] to-[hsl(225,80%,65%)]",
 
     // Typografi
     heading: "font-[var(--font-display)] font-semibold tracking-tight", 

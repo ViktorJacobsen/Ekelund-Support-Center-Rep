@@ -3,7 +3,7 @@
 import React, { ReactNode, useMemo } from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { useTheme } from '@/styles/theme/theme-context';
+import { useTheme } from '@mui/material/styles'
 import { lightTheme, darkTheme } from '@/styles/theme/mui-theme';
 
 // Importera typerna från den nya typfilen

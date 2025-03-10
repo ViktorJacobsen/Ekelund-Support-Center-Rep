@@ -1,4 +1,6 @@
-// In src/styles/theme/MuiThemeProvider.tsx
+// src/styles/theme/MuiThemeProvider.tsx
+'use client'; // Add this at the top
+
 import React, { ReactNode, useState, useEffect } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,7 +11,7 @@ interface MuiThemeProviderProps {
 }
 
 export function MuiThemeProvider({ children }: MuiThemeProviderProps) {
-  const [darkMode, setDarkMode] = useState(true); // Default to dark mode
+  const [darkMode, setDarkMode] = useState(false);
   
   useEffect(() => {
     // Check if user has a preference stored
@@ -28,19 +30,33 @@ export function MuiThemeProvider({ children }: MuiThemeProviderProps) {
     localStorage.setItem('theme', !darkMode ? 'dark' : 'light');
   };
   
-  // Make theme toggling available to components
+  // Use the appropriate theme based on darkMode
   const theme = darkMode ? darkTheme : lightTheme;
   
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      {/* Pass the theme toggle function to your components if needed */}
-      {React.Children.map(children, child => {
-        if (React.isValidElement(child)) {
-          return React.cloneElement(child, { toggleTheme } as any);
-        }
-        return child;
-      })}
+      {/* Pass the theme context to your app */}
+      <ThemeContext.Provider value={{ darkMode, toggleTheme }}>
+        {children}
+      </ThemeContext.Provider>
     </ThemeProvider>
   );
+}
+
+// Create a theme context to share the theme state
+type ThemeContextType = {
+  darkMode: boolean;
+  toggleTheme: () => void;
+};
+
+const ThemeContext = React.createContext<ThemeContextType | undefined>(undefined);
+
+// Custom hook to use the theme context
+export function useTheme() {
+  const context = React.useContext(ThemeContext);
+  if (context === undefined) {
+    throw new Error('useTheme must be used within a MuiThemeProvider');
+  }
+  return context;
 }

@@ -1,12 +1,13 @@
+// src/components/mui-core/MuiAppProvider.tsx
 'use client';
 
 import React, { ReactNode, useMemo } from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { useTheme } from '@mui/material/styles'
+import { useTheme } from '@/styles/theme/MuiThemeProvider'; // Update this import
 import { lightTheme, darkTheme } from '@/styles/theme/mui-theme';
 
-// Importera typerna från den nya typfilen
+// Import types
 import { 
   NavigationItem, 
   NavigationDivider, 
@@ -15,20 +16,18 @@ import {
   Router 
 } from '@/types/navigation';
 
-// App context för att dela tillstånds- och navigeringsdata
-// Uppdatera detta
+// App context for sharing state and navigation data
 interface AppContextValue {
   navigation: NavigationItems;
   router: Router;
   darkMode: boolean;
   toggleTheme: () => void;
-  themeClasses: Record<string, string>; // Ändra any till Record<string, string>
 }
 
-// Skapa context
+// Create context
 const AppContext = React.createContext<AppContextValue | null>(null);
 
-// Hook för att använda app context
+// Hook for using app context
 export const useAppContext = () => {
   const context = React.useContext(AppContext);
   if (!context) {
@@ -37,22 +36,22 @@ export const useAppContext = () => {
   return context;
 };
 
-// Props för app provider
+// Props for app provider
 interface MuiAppProviderProps {
   children: ReactNode;
   navigation: NavigationItems;
 }
 
-// Skapa en minimal router som fungerar med Next.js
+// Create a minimal router that works with Next.js
 function useMinimalRouter(): Router {
-  // Få nuvarande pathname client-side
+  // Get current pathname client-side
   const [pathname, setPathname] = React.useState('/');
   
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
       setPathname(window.location.pathname);
       
-      // Lyssna på URL-ändringar
+      // Listen for URL changes
       const handleRouteChange = () => {
         setPathname(window.location.pathname);
       };
@@ -62,7 +61,7 @@ function useMinimalRouter(): Router {
     }
   }, []);
   
-  // Skapa router-objekt
+  // Create router object
   const router = useMemo(() => ({
     pathname,
     navigate: (path: string) => {
@@ -73,32 +72,28 @@ function useMinimalRouter(): Router {
   return router;
 }
 
-// Huvudkomponent - MuiAppProvider
+// Main component - MuiAppProvider
 export function MuiAppProvider({ children, navigation }: MuiAppProviderProps) {
-  const { darkMode, toggleTheme, themeClasses } = useTheme();
+  const { darkMode, toggleTheme } = useTheme();
   const router = useMinimalRouter();
   
-  // Skapa rätt MUI-tema baserat på darkMode
-  const muiTheme = React.useMemo(() => darkMode ? darkTheme : lightTheme, [darkMode]);
-  
-  // Skapa context-värdet
+  // Create context value
   const contextValue = useMemo(() => ({
     navigation,
     router,
     darkMode,
-    toggleTheme,
-    themeClasses
-  }), [navigation, router, darkMode, toggleTheme, themeClasses]);
+    toggleTheme
+  }), [navigation, router, darkMode, toggleTheme]);
   
   return (
     <AppContext.Provider value={contextValue}>
-      <MuiThemeProvider theme={muiTheme}>
-        <CssBaseline /> {/* Normaliserar CSS */}
+      <MuiThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+        <CssBaseline />
         {children}
       </MuiThemeProvider>
     </AppContext.Provider>
   );
 }
 
-// Reexportera typerna för att bibehålla bakåtkompatibilitet
+// Re-export types for backward compatibility
 export type { NavigationItem, NavigationDivider, NavigationHeader, NavigationItems, Router };

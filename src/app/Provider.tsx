@@ -1,10 +1,11 @@
+// src/app/Provider.tsx
 'use client';
 
 import React from 'react';
-import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { useTheme } from '@/styles/theme/theme-context';
-import { getTheme } from '@/styles/theme/mui-theme';
+import { useTheme } from '@/styles/theme/MuiThemeProvider'; // Update this import
+import { darkTheme, lightTheme } from '@/styles/theme/mui-theme'; // Make sure this path is correct
 
 interface ProviderProps {
   children: React.ReactNode;
@@ -13,14 +14,16 @@ interface ProviderProps {
 export default function Provider({ children }: ProviderProps) {
   const { darkMode } = useTheme();
   
-  // Skapa MUI-tema baserat på darkMode
-  const muiTheme = React.useMemo(() => getTheme(darkMode), [darkMode]);
+  // Create MUI theme based on darkMode
+  const muiTheme = React.useMemo(() => 
+    darkMode ? darkTheme : lightTheme, 
+    [darkMode]
+  );
   
-  // Alltid applicera MUI-tema
   return (
-    <MuiThemeProvider theme={muiTheme}>
+    <ThemeProvider theme={muiTheme}>
       <CssBaseline />
       {children}
-    </MuiThemeProvider>
+    </ThemeProvider>
   );
 }

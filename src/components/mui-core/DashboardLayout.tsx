@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { styled, useTheme as useMuiTheme, Theme } from '@mui/material/styles';
+import { styled, useTheme as useMuiTheme } from '@mui/material/styles'; // Remove unused Theme
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import AppBar from '@mui/material/AppBar';
@@ -33,7 +33,6 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 // Import the app context
 import { useAppContext } from './MuiAppProvider';
 import { PageContainer } from './PageContainer';
-import { NavigationItem, NavigationItems } from '@/types/navigation';
 
 const drawerWidth = 240;
 
